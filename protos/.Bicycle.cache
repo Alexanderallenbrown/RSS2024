@@ -1,0 +1,11 @@
+Webots Proto Cache File version 1.5
+protoFileHash: 20eec5b58ac67fa93d302d3bf2b9ae88
+needsRobotAncestor: 1
+baseType: Robot
+slotType: 
+parameters: bicycle_shape,motorcycle_shape,BikeRotation,BikePosition,CenterMass,CenterHeight,a,b,c,lambda,FrontWheelR,RearWheelR,WheelmassF,WheelmassR,FrontforkM,tireRadiusF,tireRadiusR,Xff,Zff,use_suspension,springRate_front,damping_front,suspension_travel_front,measured_sag_front,jounce_front,swingarm_pivot,wheelRate_rear,damping_rear,suspension_travel_rear,measured_sag_rear,jounce_rear,Addon,controller,name
+tags: 
+license: 
+licenseUrl: 
+documentationUrl: 
+info: 
