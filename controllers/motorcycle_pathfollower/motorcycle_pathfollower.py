@@ -14,7 +14,7 @@ import control.matlab as cnt
 #when you run updateTrack from the trackbuilder/ folder, this file gets updated automatically:
 map = Map(type='xyz',filename='../../map/track.csv')
 #get a speed profile for the track using point-mass racer.
-pmr = PointMassRacer('xyz','../../map/track.csv',0.5,0.5,11,Kthresh=.02,check_decreasing=False)
+pmr = PointMassRacer('xyz','../../map/track.csv',0.2,0.2,10,Kthresh=.02,check_decreasing=False)
 Ugrid = pmr.getSpeedProfile()
 
 showPlots = False
@@ -34,7 +34,7 @@ yawCorr = Rollover()
 roadCorr = Rollover()
 
 # SIMULATION SETUP
-driveVelocity = 8.0
+driveVelocity = 10
 
 
 param_names = [   'a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
@@ -42,7 +42,8 @@ param_names = [   'a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw',
 #rough KX450 params:
 #MC_params = array([.5,1.49,.1,   .9,   200, 1.25, .75,    5,   .3,    12,  .3,   15,    1    ,1.35,  1.1])
 #razor params:
-MC_params = array([.451,.99,.0526,.506,22.717,.9246,.515,5.105,.2413,4.278,.2413,7.1,.125,.2,1.345])
+#MC_params = array([.451,.99,.0526,.506,22.717,.9246,.515,5.105,.2413,4.278,.2413,7.1,.125,.2,1.345])
+MC_params = array([.708,1.45,0.0381,0.541,158.1,1.18,0.7347,10,0.356,10,0.33,13,.63368,.70785,1.1])
 
 ##### do eigenvalue study ######
 if(showPlots):
@@ -56,7 +57,7 @@ Kprev = .16
 lastControlTime = 0
 dTcontrol = 0.005
 # get controller designs for a range of speeds
-lqrspeeds = arange(1,10,1)
+lqrspeeds = arange(1,16,1)
 Rlqr = .005
 Qlqr = eye(4)/100.0
 Qlqr[0,0]=1.0
@@ -234,11 +235,11 @@ while robot.step(timestep) != -1:
         prevK = interp(Sprev+mapstation,map.S,map.K)
         prevYaw = interp(Sprev+mapstation,map.S,map.roadyaw)
         #now use this to determine goal roll.
-        goalRoll = -Kprev*prev_y[0]#-arctan(U**2*prevK/9.81)
+        goalRoll = 0.1#-Kprev*prev_y[0]#-arctan(U**2*prevK/9.81)
         #determine goal yaw angle change based on this.
         #the misalignment with this future position is
         #for small angles, prev_y/Sprev
-        goalYaw = .5#roadyaw + prev_y[0]/Sprev
+        goalYaw = 0#roadyaw + prev_y[0]/Sprev
         yawError = goalYaw - yaw
 
         # goalRoll = 0

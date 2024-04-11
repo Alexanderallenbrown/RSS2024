@@ -34,8 +34,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.10343326451880282 -0.8008012461063104 -0.5899312875459005 5.866751022025346
-  position -19.594180394526873 -6.5770030755415725 9.650132409033402
+  orientation 0.001981899052343301 0.0033648659451522233 -0.9999923748475872 1.59494734982442
+  position 1.114113523480333 7.299897216732243 0.8830754307494094
   follow "Bicycle"
   followSmoothness 0.1
 }
@@ -95,21 +95,21 @@ DEF MOTORCYCLE Bicycle {
   motorcycle_shape TRUE
   BikeRotation 0 0 -1 0
   BikePosition 0 0 0.02
-  CenterMass 22.717
-  CenterHeight 0.506
-  a 0.451
-  b 0.99
-  c 0.0526
-  lambda 1.345
-  FrontWheelR 0.2413
-  RearWheelR 0.2413
-  WheelmassF 4.278
-  WheelmassR 7.1
-  FrontforkM 5.105
+  CenterMass 191
+  CenterHeight 0.50855
+  a 0.7076
+  b 1.4478
+  c 0.0381
+  lambda 1.1
+  FrontWheelR 0.3556
+  RearWheelR 0.33
+  WheelmassF 10
+  WheelmassR 13
+  FrontforkM 10
   tireRadiusF 0.03
   tireRadiusR 0.03
-  Xff 0.9246
-  Zff 0.515
+  Xff 1.18
+  Zff 0.7347
   springRate_front 30000
   measured_sag_front 0.025
   jounce_front 0.06333012399764275
