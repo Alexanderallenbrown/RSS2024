@@ -17,7 +17,7 @@ map = Map(type='xyz',filename='../../map/track.csv')
 pmr = PointMassRacer('xyz','../../map/track.csv',0.2,0.2,10,Kthresh=.02,check_decreasing=False)
 Ugrid = pmr.getSpeedProfile()
 
-showPlots = False
+showPlots = True
 
 if showPlots:
     figure
@@ -43,23 +43,23 @@ param_names = [   'a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw',
 #MC_params = array([.5,1.49,.1,   .9,   200, 1.25, .75,    5,   .3,    12,  .3,   15,    1    ,1.35,  1.1])
 #razor params:
 #MC_params = array([.451,.99,.0526,.506,22.717,.9246,.515,5.105,.2413,4.278,.2413,7.1,.125,.2,1.345])
-MC_params = array([.708,1.45,0.0381,0.541,158.1,1.18,0.7347,10,0.356,10,0.33,13,.63368,.70785,1.1])
+MC_params = array([.708,1.45,0.115,0.541,158.1,1.25,0.7347,10,0.356,10,0.33,13,.63368,.70785,1.1])
 
 ##### do eigenvalue study ######
 if(showPlots):
     vstudy,restudy,imstudy = plotEigStudy(MC_params,True)
 
 # LANE CONTROL PARAMETERS:
-Tprev = 1
-Kprev = .16
+Tprev = 1.5
+Kprev = .08
 
 # CONTROL PARAMETERS
 lastControlTime = 0
 dTcontrol = 0.005
 # get controller designs for a range of speeds
 lqrspeeds = arange(1,16,1)
-Rlqr = .005
-Qlqr = eye(4)/100.0
+Rlqr = .001
+Qlqr = eye(4)/10.0
 Qlqr[0,0]=1.0
 
 ########## GET LQR GAINS ################
@@ -81,7 +81,7 @@ for k in range(0,len(lqrspeeds)):
 
 if(showPlots):
     xlabel('Time (s)')
-    ylabel('Yaw (rad)')
+    ylabel('Roll (rad)')
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles, labels)
     show()
@@ -215,7 +215,7 @@ while robot.step(timestep) != -1:
     # get current offset from lane from maptools
     mapstation,offset,roadyaw,roadK = map.station_here(xyz[0],xyz[1],xyz[2],type="xyz")
     #get current drive velocity based on Ugrid
-    driveVelocity = interp(mapstation,map.S,Ugrid)
+    driveVelocity = 10#interp(mapstation,map.S,Ugrid)
     #now figure out the commanded rear wheel angular velocity
     driveOmega = driveVelocity/MC_params[10]
     #now set to that velocity (TODO make speed controller!)
