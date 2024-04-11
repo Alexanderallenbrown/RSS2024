@@ -17,7 +17,7 @@ map = Map(type='xyz',filename='../../map/track.csv')
 pmr = PointMassRacer('xyz','../../map/track.csv',0.2,0.2,10,Kthresh=.02,check_decreasing=False)
 Ugrid = pmr.getSpeedProfile()
 
-showPlots = True
+showPlots = False
 
 if showPlots:
     figure
@@ -35,7 +35,9 @@ roadCorr = Rollover()
 
 # SIMULATION SETUP
 driveVelocity = 10
-
+step_mag = 0.1
+goalRoll = step_mag
+doSteadyTurn = False
 
 param_names = [   'a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
 
@@ -43,15 +45,17 @@ param_names = [   'a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw',
 #MC_params = array([.5,1.49,.1,   .9,   200, 1.25, .75,    5,   .3,    12,  .3,   15,    1    ,1.35,  1.1])
 #razor params:
 #MC_params = array([.451,.99,.0526,.506,22.717,.9246,.515,5.105,.2413,4.278,.2413,7.1,.125,.2,1.345])
-MC_params = array([.708,1.45,0.115,0.541,158.1,1.25,0.7347,10,0.356,10,0.33,13,.63368,.70785,1.1])
+MC_params = array([.708,1.45,0.115,0.509,158.1,1.25,0.7347,10,0.356,10,0.33,13,.3,.3,1.1])
 
 ##### do eigenvalue study ######
 if(showPlots):
     vstudy,restudy,imstudy = plotEigStudy(MC_params,True)
 
 # LANE CONTROL PARAMETERS:
-Tprev = 1.5
-Kprev = .08
+Tprev =1
+Kprev = .1
+Kdprev= 0.05
+eprev_old = 0
 
 # CONTROL PARAMETERS
 lastControlTime = 0
@@ -59,15 +63,15 @@ dTcontrol = 0.005
 # get controller designs for a range of speeds
 lqrspeeds = arange(1,16,1)
 Rlqr = .001
-Qlqr = eye(4)/10.0
-Qlqr[0,0]=1.0
+Qlqr = eye(5)#/10.0
+Qlqr[4,4]=1.0
 
 ########## GET LQR GAINS ################
 if(showPlots):
     fig,ax = subplots()
-    step_mag = 0.1
+    
 for k in range(0,len(lqrspeeds)):
-    Klqr,sys = getLQR(lqrspeeds[k],Q=Qlqr,R=Rlqr,params=MC_params)
+    Klqr,sys = getLQRI(lqrspeeds[k],Q=Qlqr,R=Rlqr,params=MC_params)
     if showPlots:
         yout,tout = cnt.step(sys)
         yout*=step_mag
@@ -215,7 +219,8 @@ while robot.step(timestep) != -1:
     # get current offset from lane from maptools
     mapstation,offset,roadyaw,roadK = map.station_here(xyz[0],xyz[1],xyz[2],type="xyz")
     #get current drive velocity based on Ugrid
-    driveVelocity = 10#interp(mapstation,map.S,Ugrid)
+    if not doSteadyTurn: #make sure we didn't set a flag to do steady turn instead of path follow
+        driveVelocity = interp(mapstation,map.S,Ugrid)
     #now figure out the commanded rear wheel angular velocity
     driveOmega = driveVelocity/MC_params[10]
     #now set to that velocity (TODO make speed controller!)
@@ -235,7 +240,10 @@ while robot.step(timestep) != -1:
         prevK = interp(Sprev+mapstation,map.S,map.K)
         prevYaw = interp(Sprev+mapstation,map.S,map.roadyaw)
         #now use this to determine goal roll.
-        goalRoll = 0.1#-Kprev*prev_y[0]#-arctan(U**2*prevK/9.81)
+        eprev = -prev_y[0]
+        if not doSteadyTurn:
+            goalRoll = Kprev*eprev + Kdprev*(eprev - eprev_old)/dTcontrol#-arctan(U**2*prevK/9.81)#-Kprev*prev_y[0]
+            eprev_old = eprev
         #determine goal yaw angle change based on this.
         #the misalignment with this future position is
         #for small angles, prev_y/Sprev
@@ -251,7 +259,7 @@ while robot.step(timestep) != -1:
 
         Klqr,lqrU = getCurrentGains(U)
         # print("K = "+str(Klqr))
-        T = Klqr[0]*(eRoll) - Klqr[1]*steerangle - Klqr[2]*rollRate - Klqr[3]*steerRate #+Klqr[4]*yawError#+ Klqr[4]*yawError
+        T = Klqr[0]*(eRoll) - Klqr[1]*steerangle - Klqr[2]*rollRate - Klqr[3]*steerRate - Klqr[4]*rollInt #+Klqr[4]*yawError#+ Klqr[4]*yawError
         #print("rate = "+str(rollRate)+", bad: "+str(rollRate_bad))
         Tlim = 1000
         if(T>Tlim):
