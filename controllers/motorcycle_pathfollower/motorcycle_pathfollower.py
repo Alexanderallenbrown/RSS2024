@@ -14,7 +14,7 @@ import control.matlab as cnt
 #when you run updateTrack from the trackbuilder/ folder, this file gets updated automatically:
 map = Map(type='xyz',filename='../../map/track.csv')
 #get a speed profile for the track using point-mass racer.
-pmr = PointMassRacer('xyz','../../map/track.csv',0.2,0.2,10,Kthresh=.02,check_decreasing=False)
+pmr = PointMassRacer('xyz','../../map/track.csv',0.4,0.3,15,Kthresh=.02,check_decreasing=False)
 Ugrid = pmr.getSpeedProfile()
 
 showPlots = False
@@ -54,7 +54,7 @@ if(showPlots):
 # LANE CONTROL PARAMETERS:
 Tprev =1
 Kprev = .1
-Kdprev= 0.05
+Kdprev= 0.03
 eprev_old = 0
 
 # CONTROL PARAMETERS
