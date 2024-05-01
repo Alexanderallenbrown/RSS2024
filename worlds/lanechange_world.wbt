@@ -1,0 +1,92 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  info [
+    "Pedestrian Simulation"
+  ]
+  title "Autonomous Razor"
+  CFM 0.0001
+  ERP 0.6
+  basicTimeStep 5
+  lineScale 1
+  contactProperties [
+    ContactProperties {
+      bounce 0
+      softCFM 0.0003
+    }
+    ContactProperties {
+      material1 "motorcycle_wheel"
+      bounce 0
+      bounceVelocity 0
+      softCFM 0.01
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.15002915723782273 0.04656204016343841 -0.9875845424034984 2.3696332213078106
+  position 7.102748585910357 5.661730385319132 2.370782470322527
+  near 1
+  follow "Bicycle"
+  followType "Mounted Shot"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 400 400
+  floorAppearance Appearance {
+    material Material {
+      transparency 1
+    }
+    texture ImageTexture {
+    }
+  }
+  wallAppearance Appearance {
+    material Material {
+      transparency 1
+    }
+  }
+}
+Road {
+  lines [
+    RoadLine {
+      type "continuous"
+    }
+  ]
+  wayPoints [
+    -100 0 0
+    100 0 0
+  ]
+}
+DEF MOTORCYCLE Bicycle {
+  bicycle_shape FALSE
+  motorcycle_shape TRUE
+  BikeRotation 0 0 -1 0
+  BikePosition 0 0 0.02
+  CenterMass 158
+  CenterHeight 0.50855
+  a 0.7076
+  b 1.4478
+  c 0.115
+  lambda 1.1
+  FrontWheelR 0.3556
+  RearWheelR 0.33
+  WheelmassF 10
+  WheelmassR 13
+  FrontforkM 10
+  tireRadiusF 0.05
+  tireRadiusR 0.06
+  Xff 1.25
+  Zff 0.7347
+  springRate_front 30000
+  measured_sag_front 0.025
+  jounce_front 0.06333012399764275
+  wheelRate_rear 60000
+  jounce_rear 0.11170839115825015
+  controller "laneChange_Controller"
+}
+Robot {
+  name "laneChange_supervisor"
+  controller "laneChange_Supervisor"
+  supervisor TRUE
+}
