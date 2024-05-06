@@ -6,15 +6,21 @@ WorldInfo {
   title "Autonomous Razor"
   CFM 0.0001
   ERP 0.6
-  basicTimeStep 5
+  basicTimeStep 1
   lineScale 1
   contactProperties [
     ContactProperties {
+      coulombFriction [
+        0.6
+      ]
       bounce 0
       softCFM 0.0003
     }
     ContactProperties {
       material1 "motorcycle_wheel"
+      coulombFriction [
+        0.6
+      ]
       bounce 0
       bounceVelocity 0
       softCFM 0.01
@@ -26,7 +32,6 @@ Viewpoint {
   position -10.587655490159106 -5.466726243084116 3.6572258409617446
   near 1
   follow "Bicycle"
-  followType "Mounted Shot"
 }
 TexturedBackground {
 }
@@ -36,7 +41,7 @@ DEF MOTORCYCLE Bicycle {
   bicycle_shape FALSE
   motorcycle_shape TRUE
   BikeRotation 0 0 -1 0
-  BikePosition 0 -0.5 -0.18
+  BikePosition 0 0 -0.18
   CenterMass 158
   CenterHeight 0.50855
   a 0.7076
@@ -52,6 +57,7 @@ DEF MOTORCYCLE Bicycle {
   tireRadiusR 0.06
   Xff 1.25
   Zff 0.7347
+  use_suspension TRUE
   springRate_front 30000
   measured_sag_front 0.025
   jounce_front 0.06333012399764275

@@ -9,7 +9,7 @@ PROTO SafetyEdge [
   field SFFloat slantN 50
   field SFFloat angle 0
   field SFFloat height 1
-  field SFFloat roadMass 1
+  field SFFloat edgePosition 1
   field SFColor color 1.0 0.54 0.08
 ]
 {
@@ -23,6 +23,7 @@ PROTO SafetyEdge [
   let myslantN = fields.slantN.value;
   let myangle = fields.angle.value;
   let myheight = fields.height.value;
+  let edge_pos = fields.edgePosition.value;
 
     function straightSlantRoad(rLen, rW, slantN, angle, height) {
     this.rLen = rLen;
@@ -40,12 +41,12 @@ PROTO SafetyEdge [
       //push adds something to a list. Add the left edge.
       //each point will be a list in and of itself... [x,y,z]
       roadslice.push([xnow, safetyWidth, 0]);
-      roadslice.push([xnow, 0, 0]);
+      roadslice.push([xnow, edge_pos, 0]);
 
       //now actually make points for the slant itself.
       let ynow;
       for (let i = 0; i < this.slantN + 1; i++) {
-        ynow = -this.angle + (i / this.slantN) * (2 * this.angle);
+        ynow = -this.angle + (i / this.slantN) * (2 * this.angle)+edge_pos;
 
         //add this vector of points to the list of vertices in this 'slice' of road.
         roadslice.push([xnow, ynow, -this.height]);

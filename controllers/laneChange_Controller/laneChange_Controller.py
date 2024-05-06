@@ -23,9 +23,9 @@ yawCorr = Rollover()
 #what speed do we run at?
 driveVelocity = 10
 #what is the lane change step magnitude in meters?
-step_mag = 1
+step_mag = 2
 #at what time should we perform the step?
-step_time = 2
+step_time = 3
 #names of the parameters in the model, in the correct order.
 param_names = [   'a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
 #parameters of the DR250
