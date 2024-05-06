@@ -46,7 +46,7 @@ PROTO SafetyEdge [
       let ynow;
       for (let i = 0; i < this.slantN + 1; i++) {
         ynow = -this.angle + (i / this.slantN) * (2 * this.angle);
-        
+
         //add this vector of points to the list of vertices in this 'slice' of road.
         roadslice.push([xnow, ynow, -this.height]);
       }
@@ -71,7 +71,7 @@ PROTO SafetyEdge [
         this.vertices = this.vertices.concat(myslice);
       }
     }
-    
+
      this.updateAngle = function(newAngle) {
       this.angle = newAngle;
       this.createVertices();
@@ -119,16 +119,13 @@ PROTO SafetyEdge [
 
 DEF SlantRoad Solid {
     children [
-      Shape {
+      DEF road_shape Shape {
         appearance Appearance {
         } appearance PBRAppearance {
             baseColor IS color
             roughness 0.3
             metalness 0
         }
-        physics Physics {
-          mass IS roadMass
-          }
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
@@ -145,5 +142,6 @@ DEF SlantRoad Solid {
         }
       }
     ]
+    boundingObject USE road_shape
   }
 }
