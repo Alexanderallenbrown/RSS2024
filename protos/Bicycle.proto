@@ -5,17 +5,17 @@ PROTO  Bicycle [
   field SFBool motorcycle_shape FALSE
   field SFRotation BikeRotation 1 0 0 0
   field SFVec3f    BikePosition 0 0 0
-  field SFFloat    CenterMass   200
-  field SFFloat    CenterHeight 0.9
-  field SFFloat    a            0.51
+  field SFFloat    mrf   200
+  field SFFloat    hrf  0.9
+  field SFFloat    xrf            0.51
   field SFFloat    b            1.02
   field SFFloat    c            0.08
   field SFFloat    lambda       1.25
-  field SFFloat    FrontWheelR  0.35
-  field SFFloat    RearWheelR   0.3
-  field SFFloat    WheelmassF    3
-  field SFFloat    WheelmassR    3
-  field SFFloat    FrontforkM   1
+  field SFFloat    rfw  0.35
+  field SFFloat    rrw   0.3
+  field SFFloat    mfw     3
+  field SFFloat    mrw    3
+  field SFFloat    mff   1
   field SFFloat    tireRadiusF   .02
   field SFFloat    tireRadiusR  .02
   field SFFloat    Xff          0.9
@@ -35,7 +35,8 @@ PROTO  Bicycle [
   field MFNode     Addon []
   field SFString   controller "Bicycle_controller"
   field SFString   name "Bicycle"
-
+  field SFBool customized_inertiaMatrix FALSE
+  field MFVec3f useowninertial  0 0 0
 
 ]
 {
@@ -44,10 +45,10 @@ PROTO  Bicycle [
     import * as wbrandom from 'wbrandom.js';
     import * as wbvector2 from 'wbvector2.js';
 
-    let FR = fields.FrontWheelR.value;
-    let RR = fields.RearWheelR.value;
-    let H = fields.CenterHeight.value;
-    let A = fields.a.value;
+    let FR = fields.rfw.value;
+    let RR = fields.rrw.value;
+    let H = fields.hrf .value;
+    let A = fields.xrf.value;
     let L = fields.lambda.value;
     let B = fields.b.value;
     let C = fields.c.value;
@@ -62,6 +63,7 @@ PROTO  Bicycle [
       forkRadius = 0.025;
     }
     let useSuspension = fields.use_suspension.value;
+    let useinertialMatrix = fields.customized_inertiaMatrix.value; 
     let travelFront = fields.suspension_travel_front.value;
     let travelRear = fields.suspension_travel_rear.value;
     //compute transformation from rear wheel rate to rotational spring/damper
@@ -73,8 +75,8 @@ PROTO  Bicycle [
     let RDamping_R = Math.pow(swingarmLength,2)*damping_R;
 
     //compute free length of rear/front for correct nominal sag
-    let msprung = fields.CenterMass.value+fields.FrontforkM.value;
-    let asprung = (fields.CenterMass.value*A+fields.FrontforkM.value*XF)/(msprung)
+    let msprung = fields.mrf.value+fields.mff.value;
+    let asprung = (fields.mrf.value*A+fields.mff.value*XF)/(msprung)
     let Wr = 9.8*msprung*(B-asprung)/B;
     let Wf = 9.8*msprung*asprung/B;
     let trueSag_F = Wf*Math.sin(L)/(fields.springRate_front.value);
@@ -279,7 +281,14 @@ appearance PBRAppearance {
                 metalness 0
               }
               physics Physics {
-                mass IS WheelmassF
+                mass IS mfw
+%< if(!useinertialMatrix) { >%
+          inertiaMatrix IS useowninertial
+     %< }
+    else{ >%
+          inertiaMatrix IS inertiaMatrix []
+      %< }
+>%  
               }
             }
           }
@@ -323,7 +332,14 @@ appearance PBRAppearance {
                     transparency 0
                   }
                   physics Physics {
-                    mass IS WheelmassF
+                    mass IS mfw 
+%< if(!useinertialMatrix) { >%
+          inertiaMatrix IS useowninertial
+     %< }
+    else{ >%
+          inertiaMatrix IS inertiaMatrix []
+      %< }
+>% 
                   }
                 }
               }
@@ -339,7 +355,7 @@ appearance PBRAppearance {
         name "solid(1)"
         boundingObject USE fork_centermass
         physics Physics {
-          mass IS FrontforkM
+          mass IS mff
         }
       }
     }
@@ -379,7 +395,14 @@ appearance PBRAppearance {
 
         }
         physics Physics {
-          mass IS WheelmassR
+          mass IS mrw
+     %< if(!useinertialMatrix) { >%
+          inertiaMatrix IS useowninertial
+     %< }
+    else{ >%
+          inertiaMatrix IS inertiaMatrix []
+      %< }
+>% 
         }
       }
     }
@@ -436,7 +459,14 @@ appearance PBRAppearance {
 
                   }
                   physics Physics {
-                    mass IS WheelmassR
+                    mass IS mrw
+   %< if(!useinertialMatrix) { >%
+          inertiaMatrix IS useowninertial
+     %< }
+    else{ >%
+          inertiaMatrix IS inertiaMatrix []
+      %< }
+>% 
                   }
                 }
               }
@@ -462,7 +492,7 @@ appearance PBRAppearance {
       ]
       boundingObject USE centermass_shape
       physics Physics {
-        mass IS CenterMass
+        mass IS mrf
       }
     }
     %<if(bicycleShape){>%
