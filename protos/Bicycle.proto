@@ -19,7 +19,7 @@ PROTO  Bicycle [
   field SFFloat    tireRadiusF   .02
   field SFFloat    tireRadiusR  .02
   field SFFloat    Xff          0.9
-  field SFFloat    Zff          0.7
+  field SFFloat    hff          0.7
   field SFBool     use_suspension FALSE
   field SFFloat    springRate_front 10000
   field SFFloat    damping_front    1000
@@ -55,7 +55,7 @@ PROTO  Bicycle [
     let Tf = fields.tireRadiusF.value;
     let Tr = fields.tireRadiusR.value;
     let XF = fields.Xff.value;
-    let ZF = fields.Zff.value;
+    let ZF = fields.hff.value;
     let bicycleShape = fields.bicycle_shape.value;
     let motorcycleShape = fields.motorcycle_shape.value;
     let forkRadius = .01;
