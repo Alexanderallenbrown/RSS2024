@@ -6,21 +6,15 @@ WorldInfo {
   title "Autonomous Razor"
   CFM 0.0001
   ERP 0.6
-  basicTimeStep 1
+  basicTimeStep 5
   lineScale 1
   contactProperties [
     ContactProperties {
-      coulombFriction [
-        0.6
-      ]
       bounce 0
       softCFM 0.0003
     }
     ContactProperties {
       material1 "motorcycle_wheel"
-      coulombFriction [
-        0.6
-      ]
       bounce 0
       bounceVelocity 0
       softCFM 0.01
@@ -28,20 +22,47 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.020632750803779125 0.4843422428517927 0.8746352847807846 0.4021334001478416
-  position -10.587655490159106 -5.466726243084116 3.6572258409617446
+  orientation 0.15002915723782273 0.04656204016343841 -0.9875845424034984 2.3696332213078106
+  position 7.102748585910357 5.661730385319132 2.370782470322527
   near 1
   follow "Bicycle"
+  followType "Mounted Shot"
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF MOTORCYCLE Bicycle {
+RectangleArena {
+  floorSize 400 400
+  floorAppearance Appearance {
+    material Material {
+      transparency 1
+    }
+    texture ImageTexture {
+    }
+  }
+  wallAppearance Appearance {
+    material Material {
+      transparency 1
+    }
+  }
+}
+Road {
+  lines [
+    RoadLine {
+      type "continuous"
+    }
+  ]
+  wayPoints [
+    -100 0 0
+    100 0 0
+  ]
+}
+DEF PTW WeBikes {
   bicycle_shape FALSE
   motorcycle_shape TRUE
   BikeRotation 0 0 -1 0
-  BikePosition 0 0 -0.18
+  BikePosition 0 0 0.02
   CenterMass 158
   CenterHeight 0.50855
   a 0.7076
@@ -57,7 +78,6 @@ DEF MOTORCYCLE Bicycle {
   tireRadiusR 0.06
   Xff 1.25
   Zff 0.7347
-  use_suspension TRUE
   springRate_front 30000
   measured_sag_front 0.025
   jounce_front 0.06333012399764275
@@ -69,7 +89,4 @@ Robot {
   name "laneChange_supervisor"
   controller "laneChange_Supervisor"
   supervisor TRUE
-}
-DEF SlantRoad SafetyEdge {
-  height 0.2
 }

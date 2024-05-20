@@ -4,6 +4,8 @@
 # template language: javascript
 
 PROTO SafetyEdge [
+  field SFRotation roadRotation 1 0 0 0
+  field SFVec3f    roadPosition 0 0 0
   field SFFloat rLen 100
   field SFFloat rW 20
   field SFFloat slantN 50
@@ -119,6 +121,8 @@ PROTO SafetyEdge [
 >%
 
 DEF SlantRoad Solid {
+  rotation IS roadRotation
+  translation IS roadPosition
     children [
       DEF road_shape Shape {
         appearance Appearance {

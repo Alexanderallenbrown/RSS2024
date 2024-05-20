@@ -40,9 +40,9 @@ if(showPlots):
 lastControlTime = 0
 dTcontrol = 0.005
 
-Rlqr = .001
+Rlqr = .01#.001
 Qlqr = eye(6)#/10.0
-Qlqr[5,5]=1.0
+# Qlqr[5,5]=1.0
 
 ########## GET LQR GAINS ################
 if(showPlots):

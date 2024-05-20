@@ -118,6 +118,7 @@ def getLQRI(v,Q,R,params):
     syscl = control.StateSpace(sys.A-dot(sys.B,K),vstack([0,0,0,0,1]),eye(5),0)
     return K,syscl
 
+
 ########## State space and LQR for system augmented with roll error integral
 def getModelSSy(v,params):
     # first get the model in MDK form
@@ -128,16 +129,16 @@ def getModelSSy(v,params):
     A = hstack((A,zeros((4,2))))
     A = vstack((A,zeros((2,6))))
     # yaw rate = U*sin(lam)/b*delta + c*sin(lam)/b*deltadot
-    A[4,1] = driveVelocity*sin(params[14])/params[1]
+    A[4,1] = v*sin(params[14])/params[1]
     A[4,3] = params[2]*sin(params[14])/params[1]
     # d(lateral position)/dt = U*psi
-    A[5,4] = driveVelocity
+    A[5,4] = v
 
     B = vstack((zeros((2,2)),dot(linalg.inv(M),F)))#now stack zeros on top of our M^-1F term
     #trim B so it only takes steer.
     B = vstack(B[:,1])
     #stack B with a row of zero for augmented (yaw) state and augmented y state
-    B = vstack((B,array([0,0])))
+    B = vstack((B,0,0))
 
     C = array([[1,0,0,0,0,0],[0,1,0,0,0,0],[0,0,0,0,0,1]]) #choose the 'outputs' as just roll and steer and lat pos
     D = 0 #with two possible inputs, two possible outputs, there are four terms in the D matrix when output eqn is y = Cx+Du
@@ -149,9 +150,6 @@ def getLQRy(v,Q,R,params):
     K,S,E = control.lqr(sys,Q,R)
     syscl = control.StateSpace(sys.A-dot(sys.B,K),vstack([0,0,0,0,0,1]),eye(6),0)
     return K,syscl
-
-
-
 
 ######### OPEN LOOP EIGENVALUE STUDY
 def plotEigStudy(params,doPlot=False):

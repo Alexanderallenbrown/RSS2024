@@ -1,6 +1,6 @@
 #VRML_SIM R2023a utf8
 # template language: javascript
-PROTO  Bicycle [
+PROTO  WeBikes [
   field SFBool bicycle_shape TRUE
   field SFBool motorcycle_shape FALSE
   field SFRotation BikeRotation 1 0 0 0
@@ -63,7 +63,7 @@ PROTO  Bicycle [
       forkRadius = 0.025;
     }
     let useSuspension = fields.use_suspension.value;
-    let useinertialMatrix = fields.customized_inertiaMatrix.value; 
+    let useinertialMatrix = fields.customized_inertiaMatrix.value;
     let travelFront = fields.suspension_travel_front.value;
     let travelRear = fields.suspension_travel_rear.value;
     //compute transformation from rear wheel rate to rotational spring/damper
@@ -176,7 +176,7 @@ PROTO  Bicycle [
 
  >%
 
- DEF MOTORCYCLE Robot {
+ DEF WeBikes Robot {
   rotation IS BikeRotation
   translation IS BikePosition
   children [
@@ -288,7 +288,7 @@ appearance PBRAppearance {
     else{ >%
           inertiaMatrix IS inertiaMatrix []
       %< }
->%  
+>%
               }
             }
           }
@@ -332,14 +332,14 @@ appearance PBRAppearance {
                     transparency 0
                   }
                   physics Physics {
-                    mass IS mfw 
+                    mass IS mfw
 %< if(!useinertialMatrix) { >%
           inertiaMatrix IS useowninertial
      %< }
     else{ >%
           inertiaMatrix IS inertiaMatrix []
       %< }
->% 
+>%
                   }
                 }
               }
@@ -402,7 +402,7 @@ appearance PBRAppearance {
     else{ >%
           inertiaMatrix IS inertiaMatrix []
       %< }
->% 
+>%
         }
       }
     }
@@ -466,7 +466,7 @@ appearance PBRAppearance {
     else{ >%
           inertiaMatrix IS inertiaMatrix []
       %< }
->% 
+>%
                   }
                 }
               }
