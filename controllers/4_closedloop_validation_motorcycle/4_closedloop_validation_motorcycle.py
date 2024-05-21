@@ -2,12 +2,15 @@
 
 from controller import Robot, Motor, InertialUnit
 from numpy import *
-from Rollover import Rollover
-from realtime_plotter import RealTimePlot
-from MC_model import *
 from matplotlib.pyplot import *
 import control
 import control.matlab as cnt
+
+sys.path.insert(0, '../Models')
+from whipple_model import *
+from Lane_Controller import *
+from Rollover import Rollover
+from realtime_plotter import RealTimePlot
 
 #flag to show extra plots for debugging
 showPlots = False

@@ -4,6 +4,7 @@ from matplotlib.pyplot import *
 from scipy import signal
 import control
 import control.matlab as cnt
+import sys
 sys.path.insert(0, '../Models')
 from whipple_model import *
 

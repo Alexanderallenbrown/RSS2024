@@ -38,13 +38,13 @@ CircleArena {
 }
 DEF supervisor Robot {
   translation 0 0 0.02
-  controller "1_openloop_validation_bicycle_supervisor"
+  controller "3_closedloop_validation_bicycle_supervisor"
   supervisor TRUE
 }
 DEF PTW WeBikes {
   BikeRotation 1 0 0 0.05
   tireRadiusF 0.01
-  controller "1_openloop_validation_bicycle"
+  controller "3_closedloop_validation_bicycle"
   useowninertial [
     0 0 0
     0 0 0

@@ -63,30 +63,25 @@ DEF PTW WeBikes {
   motorcycle_shape TRUE
   BikeRotation 0 0 -1 0
   BikePosition 0 0 0.02
-  CenterMass 158
-  CenterHeight 0.50855
-  a 0.7076
   b 1.4478
   c 0.115
   lambda 1.1
-  FrontWheelR 0.3556
-  RearWheelR 0.33
-  WheelmassF 10
-  WheelmassR 13
-  FrontforkM 10
   tireRadiusF 0.05
   tireRadiusR 0.06
   Xff 1.25
-  Zff 0.7347
   springRate_front 30000
   measured_sag_front 0.025
   jounce_front 0.06333012399764275
   wheelRate_rear 60000
   jounce_rear 0.11170839115825015
-  controller "laneChange_Controller"
+  controller "4_closedloop_validation_motorcycle"
+  useowninertial [
+    0 0 0
+    0 0 0
+  ]
 }
 Robot {
   name "laneChange_supervisor"
-  controller "laneChange_Supervisor"
+  controller "4_closedloop_validation_motorcycle_supervisor"
   supervisor TRUE
 }

@@ -5,7 +5,7 @@ TIME_STEP = 32
 robot = Supervisor()  # create Supervisor instance
 
 # [CODE PLACEHOLDER 1]
-mc_node = robot.getFromDef('MOTORCYCLE')
+mc_node = robot.getFromDef('PTW')
 
 
 i = 0
