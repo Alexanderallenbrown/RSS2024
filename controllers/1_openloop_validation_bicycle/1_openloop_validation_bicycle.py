@@ -74,7 +74,7 @@ driveOmega = driveVelocity/Rrw
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
 #while robot.step(timestep) != -1:
-while simtime<=12:
+while robot.step(timestep) != -1 and simtime<=12:
     simtime+=timestep/1000.0
     if(firstLoop):
         oldRoll,oldPitch,oldYaw = imu.getRollPitchYaw()
@@ -112,7 +112,8 @@ while simtime<=12:
     motor.setVelocity(driveOmega)
     
    #roll control  
-    if(simtime>stepTime):
+    #if(simtime>stepTime):
+    if(simtime<=12):
        steerTorque = stepTorque
     else:
        steerTorque = 0
@@ -120,7 +121,8 @@ while simtime<=12:
     steer.setTorque(steerTorque)
 
     # time, goalRoll, Torque, speed, roll, rollrate, pitch, pitchrate, intE
-    if(recordData and simtime>stepTime):
+    #if(recordData and simtime>stepTime):
+    if(recordData and simtime<=12):
         f.write(str(simtime-stepTime)+","+str(U)+","+str(steerTorque)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+"\r\n")
   
 
