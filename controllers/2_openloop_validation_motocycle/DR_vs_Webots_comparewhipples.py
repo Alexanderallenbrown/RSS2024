@@ -10,7 +10,7 @@ from whipple_model import *
 param_names = ['a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
 # params = array([.3,1.02,.08,.9,85,.9,.7,4,.35,3,.3,3,.28*.65,.12*.65,1.25])
 #params = array([.6888,1.45,0.115,0.5186,158.1,1.25,0.7347,10,0.356,10,0.33,13,0.62424,0.6795,1.1])
-params = array([.6888,1.45,0.115,0.5186,158.1,1.25,0.7347,10,0.356,10,0.33,13,0.75264,0.7288666,1.1])
+params = array([.6888,1.45,0.115,0.5186,158.1,1.25,0.7347,10,0.356,10,0.33,13,0.79811,0.7288666,1.1])
 
 #params = array([.708,1.45,0.115,0.509,158.1,1.25,0.7347,10,0.356,10,0.33,13,.3,.3,1.1])
 
@@ -38,17 +38,48 @@ def getEigsVecs(params):
         #fill up velocity vector corresponding with each eigenvalue
         vvec2[:,k] = [v,v,v,v]
     return vvec,eigs_re,eigs_im
+
+def getEigsVecs_old(params):
+    #create a vector of velocities to investigate
+    vvec = arange(.01,10,.01)
+    #create a second copy of this vector that is four rows. This will make plotting easier
+    vvec2 = zeros((4,len(vvec)))
+
+    #our model is fourth order, so will have 4 eigenvalues. each can have a real and/or imaginary part.
+    eigs_re = zeros((4,len(vvec)))
+    eigs_im = zeros((4,len(vvec)))
+
+    for k in range(0,len(vvec)):
+        #get current velocity
+        v = vvec[k]
+        #get state space model at this speed
+        sys= getModelSS_old(v,params)
+        #get eigenvalues at this speed
+        eigs,vecs = linalg.eig(sys.A)
+        #get real parts and place in proper matrix for storage
+        eigs_re[:,k] = real(eigs)
+        #get imaginary parts and place in proper matrix for storage
+        eigs_im[:,k] = imag(eigs)
+        #fill up velocity vector corresponding with each eigenvalue
+        vvec2[:,k] = [v,v,v,v]
+    return vvec,eigs_re,eigs_im
 ######################## EIGS VS SPEED ##########################
 
 vvec, eigs_re, eigs_im = getEigsVecs(params)
+vvec_old,eigs_re_old,eigs_im_old = getEigsVecs_old(params)
 figure()
 plot(vvec,eigs_re[0,:],'k.',vvec,eigs_im[0,:],'k')
+plot(vvec_old,eigs_re_old[0,:],'b.',vvec_old,eigs_im_old[0,:],'b')
 xlabel('Speed (m/s)')
 ylabel('Eigenvalue (1/s)')
-legend(['real','imaginary'])
+legend(['real','imaginary','real (PM)','imaginary (PM)'])
 plot(vvec,eigs_re[1,:],'k.',vvec,abs(eigs_im[1,:]),'k')
 plot(vvec,eigs_re[2,:],'k.',vvec,abs(eigs_im[2,:]),'k')
 plot(vvec,eigs_re[3,:],'k.',vvec,abs(eigs_im[3,:]),'k')
+
+plot(vvec_old,eigs_re_old[1,:],'b.',vvec_old,abs(eigs_im_old[1,:]),'b')
+plot(vvec_old,eigs_re_old[2,:],'b.',vvec_old,abs(eigs_im_old[2,:]),'b')
+plot(vvec_old,eigs_re_old[3,:],'b.',vvec_old,abs(eigs_im_old[3,:]),'b')
 ylim([-10,10])
 ######################## STEP RESPONSE ##########################
 
@@ -65,20 +96,27 @@ print("Testing at velocity "+str(U)+" and step torque "+str(T))
 
 #get state space model of bike based on Whipple
 sys = getModelSS(U,params)
+sys_old = getModelSS_old(U,params)
 #perform an lsim using measured torque and initial condition values
 yout,tout,xout = cnt.lsim(sys,tq,t,X0)
+yout_old,tout_old,xout_olt = cnt.lsim(sys,tq,t,X0)
 
 
 #now plot data vs. whipple
 figure()
 subplot(2,1,1)
-plot(tout,yout[:,0],'k',t,roll,'r')
-legend(['DR_model','Webots'])
+plot(tout,yout[:,0],'ks',tout_old,yout_old[:,0],'b',t,roll,'r')
+legend(['DR_model','PM DR_model','Webots'])
 title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad")
 
 ylabel('Roll (rad)')
 subplot(2,1,2)
-plot(tout,yout[:,1],'k',t,steer,'r')
+plot(tout,yout[:,1],'ks',tout_old,yout_old[:,1],'b',t,steer,'r')
 ylabel('Steer (rad)')
 xlabel('Time (s)')
+
+figure()
+plot(t,rollrate,'k')
+xlabel('time (s)')
+ylabel('input torque (Nm)')
 show()
