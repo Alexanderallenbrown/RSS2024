@@ -73,7 +73,7 @@ driveOmega = driveVelocity/Rrw
 
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
-while robot.step(timestep) != -1:
+while robot.step(timestep) != -1 and simtime<=12:
     simtime+=timestep/1000.0
     if(firstLoop):
         oldRoll,oldPitch,oldYaw = imu.getRollPitchYaw()

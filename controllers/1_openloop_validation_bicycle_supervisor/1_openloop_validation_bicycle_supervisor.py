@@ -12,8 +12,8 @@ i = 0
 simtime=0
 
 #while robot.step(TIME_STEP) != -1:
-while simtime<=12 :
+while simtime<=12:
     simtime+=TIME_STEP/1000.0
-  #if (i <5 ):
+    #if(i <5):
     mc_node.setVelocity([4.5,0,0,0,0,0])
-  #i += 1
+    #i += 1
