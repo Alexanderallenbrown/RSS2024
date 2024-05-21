@@ -7,7 +7,7 @@ from numpy import *
 from Rollover import Rollover
 #from realtime_plotter import RealTimePlot
 
-driveVelocity= 4#3.95#28.95
+driveVelocity= 4.5#3.95#28.95
 
 stepTime = 0 #seconds, time of step response
 stepTorque = 0 #Nm, amount of torque to apply to handlebars
@@ -73,7 +73,8 @@ driveOmega = driveVelocity/Rrw
 
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
-while robot.step(timestep) != -1:
+#while robot.step(timestep) != -1:
+while simtime<=12:
     simtime+=timestep/1000.0
     if(firstLoop):
         oldRoll,oldPitch,oldYaw = imu.getRollPitchYaw()
@@ -105,7 +106,7 @@ while robot.step(timestep) != -1:
     steerRate = (steerangle-oldsteer)/(timestep/1000.0)
     oldsteer = steerangle
 
-
+    
     # Enter here functions to send actuator commands, like:
     #motor.setAvailableTorque(10)
     motor.setVelocity(driveOmega)
@@ -121,4 +122,5 @@ while robot.step(timestep) != -1:
     # time, goalRoll, Torque, speed, roll, rollrate, pitch, pitchrate, intE
     if(recordData and simtime>stepTime):
         f.write(str(simtime-stepTime)+","+str(U)+","+str(steerTorque)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+"\r\n")
+  
 

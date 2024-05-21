@@ -6,7 +6,7 @@ import control
 import control.matlab as cnt
 sys.path.insert(0, '../Models')
 from whipple_model import *
-
+import matplotlib.pyplot as plt
 #construct Whipple model of the bike.
 param_names = ['a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
 # params = array([.3,1.02,.08,.9,85,.9,.7,4,.35,3,.3,3,.28*.65,.12*.65,1.25])
@@ -79,4 +79,5 @@ subplot(2,1,2)
 plot(tout,yout[:,1],'k',t,steer,'r')
 ylabel('Steer (rad)')
 xlabel('Time (s)')
+plt.savefig("/Users/wenjia/Desktop/RSS2024/scripts/Figures/1_whipple_vs_Webots_phi0_"+str(round(roll[0],2))+" rad.png")
 show()

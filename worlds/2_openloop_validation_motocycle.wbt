@@ -56,12 +56,14 @@ DEF PTW WeBikes {
   mfw 10
   mrw 13
   mff 10
-  tireRadiusR 0.04
+  tireRadiusF 0.04
+  tireRadiusR 0.055
   Xff 1.25
   hff 0.735
-  jounce_front 0.07033960859143111
-  swingarm_pivot 0.5100088751996878 -1.6769112196612923e-06 0.4502808802645628
-  jounce_rear 0.07745088391140643
+  use_suspension TRUE
+  jounce_front 0.07524238110330655
+  swingarm_pivot 0.5100197859234612 -9.281610928724149e-07 0.4504293741479466
+  jounce_rear 0.07692465866077061
   controller "2_openloop_validation_motocycle"
   useowninertial [
     0 0 0

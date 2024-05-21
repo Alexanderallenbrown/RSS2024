@@ -8,12 +8,13 @@ import sys
 #include the Models directory, where the whipple_model.py (and other common modules) live.
 sys.path.insert(0, '../Models')
 from whipple_model import *
+import matplotlib.pyplot as plt
 
 #construct Whipple model of the bike.
 param_names = ['a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
 # params = array([.3,1.02,.08,.9,85,.9,.7,4,.35,3,.3,3,.28*.65,.12*.65,1.25])
 #params = array([.6888,1.45,0.115,0.5186,158.1,1.25,0.7347,10,0.356,10,0.33,13,0.62424,0.6795,1.1])
-params = array([.6888,1.45,0.115,0.5186,158.1,1.25,0.7347,10,0.356,10,0.33,13,0.75264,0.7288666,1.1])
+params = array([.6888,1.45,0.115,0.5186,158.1,1.25,0.7347,10,0.356,10,0.33,13,0.6657066,0.6554166,1.1])
 
 #params = array([.708,1.45,0.115,0.509,158.1,1.25,0.7347,10,0.356,10,0.33,13,.3,.3,1.1])
 
@@ -84,4 +85,5 @@ subplot(2,1,2)
 plot(tout,yout[:,1],'k',t,steer,'r')
 ylabel('Steer (rad)')
 xlabel('Time (s)')
+plt.savefig("/Users/wenjia/Desktop/RSS2024/scripts/Figures/2_DR_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
 show()
