@@ -4,7 +4,7 @@ from matplotlib.pyplot import *
 from scipy import signal
 import control
 import control.matlab as cnt
-from whipple_model import getModelSS
+from whipple_model import *
 
 #construct Whipple model of the bike.
 param_names = ['a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
@@ -53,7 +53,7 @@ ylim([-10,10])
 ######################## STEP RESPONSE ##########################
 
 #load data file from webots:
-t,spd,tq,roll,rollrate,steer,steerrate = loadtxt("/Users/wenjia/Desktop/RSS2024/controllers/2_openloop_validation_motocycle/DR_step_data.txt",delimiter=",",unpack=True)
+t,spd,tq,roll,rollrate,steer,steerrate = loadtxt("DR_step_data.txt",delimiter=",",unpack=True)
 U = mean(spd)#what was the speed of the test
 T = mean(tq)#what was the step magnitude?
 X0 = array([roll[0],steer[0],rollrate[0],steerrate[0]])
