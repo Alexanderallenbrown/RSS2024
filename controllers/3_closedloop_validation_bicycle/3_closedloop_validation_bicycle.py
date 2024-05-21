@@ -2,12 +2,16 @@
 
 from controller import Robot, Motor, InertialUnit
 from numpy import *
-from Rollover import Rollover
-from realtime_plotter import RealTimePlot
 from MC_model import *
 from matplotlib.pyplot import *
 import control
 import control.matlab as cnt
+
+sys.path.insert(0, '../Models')
+from whipple_model import *
+from Lane_Controller import *
+from Rollover import Rollover
+from realtime_plotter import RealTimePlot
 
 #flag to show extra plots for debugging
 showPlots = False
@@ -29,7 +33,7 @@ step_time = 3
 #names of the parameters in the model, in the correct order.
 param_names = [   'a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
 #parameters of the DR250
-MC_params = array([.708,1.45,0.115,0.509,158.1,1.25,0.7347,10,0.356,10,0.33,13,.3,.3,1.1])
+MC_params = array([.3,1.02,.08,.9,85,.9,.7,4,.35,3,.3,3,3*.35**2,3*.3**2,1.25])
 
 ##### do eigenvalue study for debugging if necessary ######
 if(showPlots):

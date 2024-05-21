@@ -4,7 +4,8 @@ from matplotlib.pyplot import *
 from scipy import signal
 import control
 import control.matlab as cnt
-from whipple_model import getModelSS
+sys.path.insert(0, '../Models')
+from whipple_model import *
 
 #construct Whipple model of the bike.
 param_names = ['a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']

@@ -4,6 +4,9 @@ from matplotlib.pyplot import *
 from scipy import signal
 import control
 import control.matlab as cnt
+import sys
+#include the Models directory, where the whipple_model.py (and other common modules) live.
+sys.path.insert(0, '../Models')
 from whipple_model import *
 
 #construct Whipple model of the bike.

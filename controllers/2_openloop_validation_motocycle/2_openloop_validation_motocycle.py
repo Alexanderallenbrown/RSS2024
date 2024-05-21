@@ -4,6 +4,9 @@
 #  from controller import Robot, Motor, DistanceSensor
 from controller import Robot, Motor, InertialUnit
 from numpy import *
+import sys
+sys.path.insert(0, '../Models')
+from whipple_model import *
 from Rollover import Rollover
 #from realtime_plotter import RealTimePlot
 
@@ -95,7 +98,7 @@ while robot.step(timestep) != -1:
     yawRate = gyros[2]
     (yaw-oldYaw)/(timestep/1000.0)
     #print("yaw/old: "+str(yaw)+","+str(oldYaw))
-    
+
     oldYaw = yaw
     roll = rpy[0]
     rollRate = gyros[0]#(roll-oldRoll)/(timestep/1000.0)
@@ -109,16 +112,15 @@ while robot.step(timestep) != -1:
     # Enter here functions to send actuator commands, like:
     #motor.setAvailableTorque(10)
     motor.setVelocity(driveOmega)
-    
-   #roll control  
+
+   #roll control
     if(simtime>stepTime):
        steerTorque = stepTorque
     else:
        steerTorque = 0
-   
+
     steer.setTorque(steerTorque)
 
     # time, goalRoll, Torque, speed, roll, rollrate, pitch, pitchrate, intE
     if(recordData and simtime>stepTime):
         f.write(str(simtime-stepTime)+","+str(U)+","+str(steerTorque)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+"\r\n")
-

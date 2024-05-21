@@ -1,9 +1,9 @@
 #VRML_SIM R2022a utf8
 WorldInfo {
   info [
-    "Pedestrian Simulation"
+    "Safety Edge Lane Change Simulation"
   ]
-  title "Autonomous Razor"
+  title "Safety Edge"
   CFM 0.0001
   ERP 0.6
   basicTimeStep 1
@@ -31,13 +31,13 @@ Viewpoint {
   orientation 0.0698706962607296 0.9351481186893895 0.34729826074389797 0.23862440807562343
   position -12.332146051706264 -1.9135149021907965 4.086738348593141
   near 1
-  follow "Bicycle"
+  follow "PTW"
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF MOTORCYCLE Bicycle {
+DEF PTW WeBikes {
   bicycle_shape FALSE
   motorcycle_shape TRUE
   BikeRotation 0 0 1 0
@@ -63,11 +63,11 @@ DEF MOTORCYCLE Bicycle {
   jounce_front 0.06333012399764275
   wheelRate_rear 60000
   jounce_rear 0.11170839115825015
-  controller "laneChange_Controller"
+  controller "5_safetyedge_controller"
 }
 Robot {
-  name "laneChange_supervisor"
-  controller "laneChange_Supervisor"
+  name "safety edge supervisor"
+  controller "5_safetyedge_controller_supervisor"
   supervisor TRUE
 }
 DEF SlantRoad SafetyEdge {
