@@ -42,8 +42,12 @@ DEF supervisor Robot {
   supervisor TRUE
 }
 DEF PTW WeBikes {
-  BikeRotation 1 0 0 0.05
+  BikeRotation 1 0 0 0.01
+  mrf 85
+  xrf 0.3
+  mff 4
   tireRadiusF 0.01
+  tireRadiusR 0.01
   controller "1_openloop_validation_bicycle"
   useowninertial [
     0 0 0

@@ -9,7 +9,11 @@ mc_node = robot.getFromDef('PTW')
 
 
 i = 0
-while robot.step(TIME_STEP) != -1:
-  if (i <5 ):
-    mc_node.setVelocity([4,0,0,0,0,0])
-  i += 1
+simtime=0
+
+#while robot.step(TIME_STEP) != -1:
+while simtime<=12 :
+    simtime+=TIME_STEP/1000.0
+  #if (i <5 ):
+    mc_node.setVelocity([4.5,0,0,0,0,0])
+  #i += 1
