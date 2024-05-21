@@ -44,6 +44,7 @@ DEF sueprvisor Robot {
 DEF PTW WeBikes {
   bicycle_shape FALSE
   motorcycle_shape TRUE
+  BikeRotation 1 0 0 0.01
   mrf 158
   hrf 0.519
   xrf 0.6888
@@ -55,11 +56,9 @@ DEF PTW WeBikes {
   mfw 10
   mrw 13
   mff 10
-  tireRadiusF 0.01
   tireRadiusR 0.04
   Xff 1.25
   hff 0.735
-  use_suspension TRUE
   jounce_front 0.07033960859143111
   swingarm_pivot 0.5100088751996878 -1.6769112196612923e-06 0.4502808802645628
   jounce_rear 0.07745088391140643
