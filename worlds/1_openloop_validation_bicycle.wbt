@@ -14,7 +14,7 @@ WorldInfo {
       forceDependentSlip [
         1e-06
       ]
-      softERP 0.01
+      softERP 0.3
       softCFM 0.0001
     }
   ]
@@ -43,7 +43,7 @@ DEF supervisor Robot {
   supervisor TRUE
 }
 DEF PTW WeBikes {
-  BikeRotation 1 0 0 0.01
+  BikeRotation 1 0 0 0.1
   mrf 85
   xrf 0.3
   mff 4
