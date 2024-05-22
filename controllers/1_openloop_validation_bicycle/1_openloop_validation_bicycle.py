@@ -127,7 +127,8 @@ while robot.step(timestep) != -1 and simtime<=12:
     #if(recordData and simtime>stepTime):
     if(recordData and simtime<=12):
         f.write(str(simtime-stepTime)+","+str(U)+","+str(steerTorque)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+"\r\n")
-        f.close()
-        makePlot()
+        
+f.close()
+makePlot()
     #with open("whipple_vs_webots.py") as file:
         #exec(file.read())
