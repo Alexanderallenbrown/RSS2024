@@ -9,10 +9,9 @@ PROTO SafetyEdge [
   field SFFloat rLen 100
   field SFFloat rW 20
   field SFFloat slantN 50
-  field SFFloat angle 0
-  field SFFloat height 1
+  field SFFloat angle 90
+  field SFFloat height 4
   field SFFloat edgePosition 1
-  field SFColor color 1.0 0.54 0.08
 ]
 {
 %<
@@ -31,8 +30,8 @@ PROTO SafetyEdge [
     this.rLen = rLen;
     this.rW = rW;
     this.slantN = slantN;
-    this.angle = angle;
-    this.height = height;
+    this.angle = angle/57.2957795 ;
+    this.height = height*.0254;
     this.vertices = []; //this will hold all xyz points of the road
     this.coordIndices = []; //this is a list of triangles defined by the indices in the 'vertices' list.
 
@@ -48,13 +47,17 @@ PROTO SafetyEdge [
       //now actually make points for the slant itself.
       let ynow;
       for (let i = 0; i < this.slantN + 1; i++) {
-        ynow = -this.angle + (i / this.slantN) * (2 * this.angle)+edge_pos;
+        if (this.angle === 0) {
+        ynow = -(this.height)/Math.tan(180/57.2957795);
+        } else {
+         ynow = -(this.height)/Math.tan(this.angle);
+         }
 
         //add this vector of points to the list of vertices in this 'slice' of road.
-        roadslice.push([xnow, ynow, -this.height]);
+        roadslice.push([xnow, ynow + edge_pos, -this.height]);
       }
       //now add the left edge
-      roadslice.push([xnow, ynow, -this.height]);
+      roadslice.push([xnow, ynow + edge_pos, -this.height]);
       roadslice.push([xnow, -safetyWidth, -this.height]);
       //this function returns the 'slice' of the road, a list of 3-vectors describing each vertex.
       return roadslice;
@@ -127,9 +130,11 @@ DEF SlantRoad Solid {
       DEF road_shape Shape {
         appearance Appearance {
         } appearance PBRAppearance {
-            baseColor IS color
             roughness 0.3
             metalness 0
+          // baseColorMap ImageTexture{
+             // url "resources\images\dirt texture.jpg"
+         //  }
         }
         geometry IndexedFaceSet {
           coord Coordinate {
