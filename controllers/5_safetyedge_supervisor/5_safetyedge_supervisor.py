@@ -41,30 +41,29 @@ print('initial printed to text file')
 
 
 for sim_counter in range(0,10): # replaced while with for loop
-    while robot.step(TIME_STEP) != -1:
-            #robot.simulationReset() # kept re-running and wouldn't reach my if statement
-            print('going through while loop') # this is bening printed
-            sim_time = 0
-            rp_y = 0 # resets y for each sim so offsets incs correctly
-            offset = offset_values[i]
-            new_rp_y = rp_y + offset # made new var to avoid pot issues
-            new_road_pos = [0, new_rp_y, 0] # we need to put new y values back into vec
-            road_pos = road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
-            print(new_road_pos) # this is being printed
+        print('going through while loop') # this is bening printed
+        
+        rp_y = 0 # resets y for each sim so offsets incs correctly
+        offset = offset_values[i]
+        new_rp_y = rp_y + offset # made new var to avoid pot issues
+        new_road_pos = [0, new_rp_y, 0] # we need to put new y values back into vec
+        road_pos = road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
+        print(new_road_pos) # this is being printed
 
-            y = open('road_position_y_position.txt', 'w') # opens txt for file
-            y.write('Road Y Position is ' + str(new_rp_y)) # writes new val to txt file, # str(val)
-            y.close()
-            print('printed') # keeps rewriting over previous values, this is a later fix
-
-            i+=1 # updates index of offset values array
-            sim_counter+=1
-            print(sim_counter)
-
-            if(robot.getTime() > 100): # MUST be an equals
-                robot.simulationReset() # only reset the simulation if
-                print(sim_counter) # sim counter is implenting correctly!!!
-                print('3')
+        y = open('road_position_y_position.txt', 'w') # opens txt for file
+        y.write('Road Y Position is ' + str(new_rp_y)) # writes new val to txt file, # str(val)
+        y.close()
+        print('printed to the txt file') # keeps rewriting over previous values, this is a later fix
+        
+        while robot.getTime() < sim_time:
+            robot.step(TIME_STEP)
+            print('going through while loop')
+       
+        robot.simulationReset() # only reset the simulation if
+        i+=1 # updates index of offset values array
+        sim_counter+=1
+        print(sim_counter) # sim counter is implenting correctly!!!
+        print('3')
 
                  #if (i <20 ):
                 #mc_node.setVelocity([10,0,0,0,0,0])
