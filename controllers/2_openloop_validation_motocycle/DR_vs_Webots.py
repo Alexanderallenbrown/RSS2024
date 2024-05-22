@@ -43,47 +43,47 @@ def getEigsVecs(params):
         vvec2[:,k] = [v,v,v,v]
     return vvec,eigs_re,eigs_im
 ######################## EIGS VS SPEED ##########################
-
-vvec, eigs_re, eigs_im = getEigsVecs(params)
-figure()
-plot(vvec,eigs_re[0,:],'k.',vvec,eigs_im[0,:],'k')
-xlabel('Speed (m/s)')
-ylabel('Eigenvalue (1/s)')
-legend(['real','imaginary'])
-plot(vvec,eigs_re[1,:],'k.',vvec,abs(eigs_im[1,:]),'k')
-plot(vvec,eigs_re[2,:],'k.',vvec,abs(eigs_im[2,:]),'k')
-plot(vvec,eigs_re[3,:],'k.',vvec,abs(eigs_im[3,:]),'k')
-ylim([-10,10])
+def makePlot():
+    vvec, eigs_re, eigs_im = getEigsVecs(params)
+    figure()
+    plot(vvec,eigs_re[0,:],'k.',vvec,eigs_im[0,:],'k')
+    xlabel('Speed (m/s)')
+    ylabel('Eigenvalue (1/s)')
+    legend(['real','imaginary'])
+    plot(vvec,eigs_re[1,:],'k.',vvec,abs(eigs_im[1,:]),'k')
+    plot(vvec,eigs_re[2,:],'k.',vvec,abs(eigs_im[2,:]),'k')
+    plot(vvec,eigs_re[3,:],'k.',vvec,abs(eigs_im[3,:]),'k')
+    ylim([-10,10])
 ######################## STEP RESPONSE ##########################
 
 #load data file from webots:
-t,spd,tq,roll,rollrate,steer,steerrate = loadtxt("DR_step_data.txt",delimiter=",",unpack=True)
-U = mean(spd)#what was the speed of the test
-T = mean(tq)#what was the step magnitude?
-X0 = array([roll[0],steer[0],rollrate[0],steerrate[0]])
-print("Testing at velocity "+str(U)+" and step torque "+str(T))
+    t,spd,tq,roll,rollrate,steer,steerrate = loadtxt("DR_step_data.txt",delimiter=",",unpack=True)
+    U = mean(spd)#what was the speed of the test
+    T = mean(tq)#what was the step magnitude?
+    X0 = array([roll[0],steer[0],rollrate[0],steerrate[0]])
+    print("Testing at velocity "+str(U)+" and step torque "+str(T))
 
 
 
 
 
-#get state space model of bike based on Whipple
-sys = getModelSS(U,params)
-#perform an lsim using measured torque and initial condition values
-yout,tout,xout = cnt.lsim(sys,tq,t,X0)
+    #get state space model of bike based on Whipple
+    sys = getModelSS(U,params)
+    #perform an lsim using measured torque and initial condition values
+    yout,tout,xout = cnt.lsim(sys,tq,t,X0)
 
 
-#now plot data vs. whipple
-figure()
-subplot(2,1,1)
-plot(tout,yout[:,0],'k',t,roll,'r')
-legend(['DR_model','Webots'])
-title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad")
+    #now plot data vs. whipple
+    figure()
+    subplot(2,1,1)
+    plot(tout,yout[:,0],'k',t,roll,'r')
+    legend(['DR_model','Webots'])
+    title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad")
 
-ylabel('Roll (rad)')
-subplot(2,1,2)
-plot(tout,yout[:,1],'k',t,steer,'r')
-ylabel('Steer (rad)')
-xlabel('Time (s)')
-plt.savefig("/Users/wenjia/Desktop/RSS2024/scripts/Figures/2_DR_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
-show()
+    ylabel('Roll (rad)')
+    subplot(2,1,2)
+    plot(tout,yout[:,1],'k',t,steer,'r')
+    ylabel('Steer (rad)')
+    xlabel('Time (s)')
+    plt.savefig("/Users/wenjia/Desktop/RSS2024/scripts/Figures/2_DR_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
+    show()

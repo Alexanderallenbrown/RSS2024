@@ -8,6 +8,7 @@ import sys
 sys.path.insert(0, '../Models')
 from whipple_model import *
 from Rollover import Rollover
+from DR_vs_Webots import makePlot
 #from realtime_plotter import RealTimePlot
 
 driveVelocity= 5.95#7.33#3.95#28.95
@@ -114,7 +115,7 @@ while robot.step(timestep) != -1 and simtime<=12:
     motor.setVelocity(driveOmega)
 
    #roll control
-    if(simtime>stepTime):
+    if( simtime<=12):
        steerTorque = stepTorque
     else:
        steerTorque = 0
@@ -122,5 +123,7 @@ while robot.step(timestep) != -1 and simtime<=12:
     steer.setTorque(steerTorque)
 
     # time, goalRoll, Torque, speed, roll, rollrate, pitch, pitchrate, intE
-    if(recordData and simtime>stepTime):
+    if(recordData and simtime<=12):
         f.write(str(simtime-stepTime)+","+str(U)+","+str(steerTorque)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+"\r\n")
+f.close()
+makePlot()
