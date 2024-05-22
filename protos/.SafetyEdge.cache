@@ -1,9 +1,9 @@
 Webots Proto Cache File version 1.5
-protoFileHash: e771841d7da26c66ee7564e012d184b6
+protoFileHash: 68c77d0133cacc03b93929c25d71aa7f
 needsRobotAncestor: 0
 baseType: Solid
 slotType: 
-parameters: rLen,rW,slantN,angle,height,edgePosition,color
+parameters: roadRotation,roadPosition,rLen,rW,slantN,angle,height,edgePosition,color
 tags: nonDeterministic
 license: 
 licenseUrl: 
