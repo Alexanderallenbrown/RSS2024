@@ -5,16 +5,17 @@ WorldInfo {
   ]
   title "1_openloop_validation_bicycle"
   CFM 0.0001
-  ERP 0.6
+  ERP 0.01
   basicTimeStep 1
   lineScale 1
   contactProperties [
     ContactProperties {
-      coulombFriction [
-        8
-      ]
       bounce 0.001
-      softCFM 0.0003
+      forceDependentSlip [
+        1e-06
+      ]
+      softERP 0.01
+      softCFM 0.0001
     }
   ]
 }
