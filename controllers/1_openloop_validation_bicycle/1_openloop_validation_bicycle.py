@@ -5,7 +5,7 @@
 from controller import Robot, Motor, InertialUnit
 from numpy import *
 from Rollover import Rollover
-from whipple_vs_webots import makePlot()
+from whipple_vs_webots import makePlot
 #from realtime_plotter import RealTimePlot
 
 driveVelocity= 4.5#3.95#28.95
