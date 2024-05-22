@@ -5,6 +5,7 @@
 from controller import Robot, Motor, InertialUnit
 from numpy import *
 from Rollover import Rollover
+from whipple_vs_webots import plt
 #from realtime_plotter import RealTimePlot
 
 driveVelocity= 4.5#3.95#28.95
@@ -22,6 +23,8 @@ if recordData:
     # start a file we can use to collect data
     f = open('step_data.txt','w')
     f.write("# time, speed, Torque, roll, rollrate, steer, steerrate\r\n")
+    #f.close()
+
 
 # get the time step of the current world.
 timestep = int(robot.getBasicTimeStep())
@@ -124,5 +127,8 @@ while robot.step(timestep) != -1 and simtime<=12:
     #if(recordData and simtime>stepTime):
     if(recordData and simtime<=12):
         f.write(str(simtime-stepTime)+","+str(U)+","+str(steerTorque)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+"\r\n")
-  
-
+        f.close()
+        plt.plot()
+    #with open("whipple_vs_webots.py") as file:
+        #exec(file.read())
+    

@@ -51,11 +51,12 @@ ylim([-10,10])
 ######################## STEP RESPONSE ##########################
 
 #load data file from webots:
-t,spd,tq,roll,rollrate,steer,steerrate = loadtxt("step_data.txt",delimiter=",",unpack=True)
+t,spd,tq,roll,rollrate,steer,steerrate = loadtxt("/Users/wenjia/Desktop/RSS2024/controllers/1_openloop_validation_bicycle/step_data.txt",delimiter=",",unpack=True)
 U = mean(spd)#what was the speed of the test
 T = mean(tq)#what was the step magnitude?
 X0 = array([roll[0],steer[0],rollrate[0],steerrate[0]])
 print("Testing at velocity "+str(U)+" and step torque "+str(T))
+
 
 
 
@@ -78,6 +79,5 @@ subplot(2,1,2)
 plot(tout,yout[:,1],'k',t,steer,'r')
 ylabel('Steer (rad)')
 xlabel('Time (s)')
-plt.savefig("../../scripts/Figures/1_whipple_vs_Webots_phi0_"+str(round(roll[0],2))+" rad.png")
+plt.savefig("/Users/wenjia/Desktop/RSS2024/scripts/Figures/1_whipple_vs_Webots_phi0_"+str(round(roll[0],2))+" rad.png")
 show()
-
