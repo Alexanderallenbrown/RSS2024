@@ -5,7 +5,7 @@
 from controller import Robot, Motor, InertialUnit
 from numpy import *
 from Rollover import Rollover
-from whipple_vs_webots import plt
+from whipple_vs_webots import makePlot()
 #from realtime_plotter import RealTimePlot
 
 driveVelocity= 4.5#3.95#28.95
@@ -99,7 +99,7 @@ while robot.step(timestep) != -1 and simtime<=12:
     yawRate = gyros[2]
     (yaw-oldYaw)/(timestep/1000.0)
     #print("yaw/old: "+str(yaw)+","+str(oldYaw))
-    
+
     oldYaw = yaw
     roll = rpy[0]
     rollRate = gyros[0]#(roll-oldRoll)/(timestep/1000.0)
@@ -109,18 +109,18 @@ while robot.step(timestep) != -1 and simtime<=12:
     steerRate = (steerangle-oldsteer)/(timestep/1000.0)
     oldsteer = steerangle
 
-    
+
     # Enter here functions to send actuator commands, like:
     #motor.setAvailableTorque(10)
     motor.setVelocity(driveOmega)
-    
-   #roll control  
+
+   #roll control
     #if(simtime>stepTime):
     if(simtime<=12):
        steerTorque = stepTorque
     else:
        steerTorque = 0
-   
+
     steer.setTorque(steerTorque)
 
     # time, goalRoll, Torque, speed, roll, rollrate, pitch, pitchrate, intE
@@ -128,7 +128,6 @@ while robot.step(timestep) != -1 and simtime<=12:
     if(recordData and simtime<=12):
         f.write(str(simtime-stepTime)+","+str(U)+","+str(steerTorque)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+"\r\n")
         f.close()
-        plt.plot()
+        makePlot()
     #with open("whipple_vs_webots.py") as file:
         #exec(file.read())
-    
