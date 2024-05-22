@@ -63,12 +63,22 @@ DEF PTW WeBikes {
   motorcycle_shape TRUE
   BikeRotation 0 0 -1 0
   BikePosition 0 0 0.02
+  mrf 158
+  hrf 0.5186
+  xrf 0.6888
   b 1.4478
   c 0.115
   lambda 1.1
-  tireRadiusF 0.05
-  tireRadiusR 0.06
+  rfw 0.356
+  rrw 0.33
+  mfw 10
+  mrw 13
+  mff 10
+  tireRadiusF 0.04
+  tireRadiusR 0.055
   Xff 1.25
+  hff 0.7347
+  use_suspension TRUE
   springRate_front 30000
   measured_sag_front 0.025
   jounce_front 0.06333012399764275

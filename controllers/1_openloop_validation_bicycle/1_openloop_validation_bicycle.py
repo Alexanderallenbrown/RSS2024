@@ -70,7 +70,7 @@ firstLoop = True
 
 #set the simulation forward speed and calculate rear wheel omega
 
-Rrw = 0.3
+Rrw = 0.33
 driveOmega = driveVelocity/Rrw
 
 
