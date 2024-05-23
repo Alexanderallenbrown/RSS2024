@@ -3,22 +3,34 @@ from controller import Node
 
 # 0, 1, 2, 3, 4, check where code is stopping and not runnig
 # get access to nodes through Supervisor
-#mc_node = robot.getFromDef('PTW')
+
 TIME_STEP = 1
 robot = Supervisor()
 
-#mc_node = robot.getFromDef('PTW')
+mc_node = robot.getFromDef('PTW')
+
 # get our safety edge node
 safedge_node = robot.getFromDef('SlantRoad')
 road_pos_field = safedge_node.getField('roadPosition')
-print('00')
+
+# get our safety edge robot supervisor node
+safe_edge_rob = robot.getFromDef('safedge_rob')
+
+# get out webikes proto node
+mc_node = robot.getFromDef('PTW')
+
+
+print('00') # this is being printed 
 road_pos = road_pos_field.getSFVec3f() # creates a road pos vector of length 3
-print('0')
+print('0') # this is being printed 
 
 # create and set all variables needed for simulation
 sim_counter = 0 # counts number of sims occured
-sim_time = 10 # sets sim time we want to rst sim at
-offset_values = [-0.50, -1.0, -1.5, -2.0, -2.5, -3.0, -3.5, -4.0, -4.5, -5.0]
+sim_time = 0 # updates to match time step
+sim_time_max = 10 # max time we want simulation to update
+offset_values = [0.50, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
+
+
 i = 0 # index for offset_values array
 rp_x = 0 # x pos of road vec
 rp_y = 0 # y pos of road vec
@@ -29,8 +41,9 @@ road_pos[0] = rp_x
 road_pos[1] = rp_y
 road_pos[2] = rp_z
 
-print('vars')
-print(road_pos)
+
+print('vars') # this is being printed 
+print(road_pos) # this is being printed
 
 
 y = open('road_position_y_position.txt', 'w') # opens txt for file
@@ -39,32 +52,74 @@ y.close() # closes file...
 print('initial printed to text file')
 
 
-
 for sim_counter in range(0,10): # replaced while with for loop
-        print('going through while loop') # this is bening printed
+        print('1st going through while loop') # this is bening printed
+        print('i starts with a current value of ' + str(i))
+        print('sim_counter starts with a current value of ' + str(sim_counter))
         
         rp_y = 0 # resets y for each sim so offsets incs correctly
         offset = offset_values[i]
-        new_rp_y = rp_y + offset # made new var to avoid pot issues
+        new_rp_y = rp_y - offset # made new var to avoid pot issues
         new_road_pos = [0, new_rp_y, 0] # we need to put new y values back into vec
-        road_pos = road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
+        
+        road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
+        road_pos = new_road_pos # testing if assignin vecs like this solves issue
+        
         print(new_road_pos) # this is being printed
+        print(road_pos) # this is being printed! theybboth match!
+
 
         y = open('road_position_y_position.txt', 'w') # opens txt for file
         y.write('Road Y Position is ' + str(new_rp_y)) # writes new val to txt file, # str(val)
         y.close()
+        
         print('printed to the txt file') # keeps rewriting over previous values, this is a later fix
         
-        while robot.getTime() < sim_time:
-            robot.step(TIME_STEP)
-            print('going through while loop')
-       
-        robot.simulationReset() # only reset the simulation if
-        i+=1 # updates index of offset values array
-        sim_counter+=1
-        print(sim_counter) # sim counter is implenting correctly!!!
-        print('3')
+        
+        
+        # need to make sure robot time is reset 
+        while robot.getTime() < sim_time_max: # implements correctly
+            robot.step(TIME_STEP) # increments time appropriately 
+            #print('time check while loop in progress')
+            print(mc_node.getTime())
+            
+        print('Exit while loop')
+      
+        # initial 000 vector to set road_pos back to 
+        init_road_pos = [0, 0, 0]
+        road_pos_field.setSFVec3f(init_road_pos) # ressets road position vec (might not need)
+        print(road_pos_field.setSFVec3f(init_road_pos)) 
+           
+        # NTP: needs to reset before reloading
+        robot.simulationReset() # ONLY resets siulation, not robot simulation time
+        
+         # restart the safety edge node controller
+        # safe_edge_rob.restartController() # resets robot controller
+        
+        # restart bike controller as well (might be impacting sim)
+        mc_node.restartController()
+        
+        # CODE BLOCK E
+        robot.worldReload()
+        print('Reset Sim')
+        
+         # reset world,simulation, Supervisor controller, reset vector
+        # robot.worldSave() # saves before annoying pop up
 
+         # CODE BLOCK S <-- needs to occur before while loop!!!
+        i+=1 # updates index of offset values array
+        sim_counter+=1 # incremts sim counter AFTER exiting loop 
+        print('s ends with a current value of '+ str(i))
+        print('i ends with a current value of ' +str(i))
+        print(sim_counter)
+        print('e')
+        
+        
+        
+        
+        
+        
+        
                  #if (i <20 ):
                 #mc_node.setVelocity([10,0,0,0,0,0])
                 #i += 1
