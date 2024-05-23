@@ -23,7 +23,6 @@ mc_node = robot.getFromDef('PTW')
 # print("motorcycle robot is: "+str(dir(mc_node)))
 
 
-
 print('Road Position Initially is:') # this is being printed 
 road_pos = road_pos_field.getSFVec3f() # creates a road pos vector of length 3
 print(road_pos) # this is being printed 
@@ -57,13 +56,10 @@ print('initial printed to text file')
 
 
 for sim_counter in range(0,10): # replaced while with for loop
-        # print('1st going through while loop') # this is bening printed
-        # print('i starts with a current value of ' + str(i))
-        # print('sim_counter starts with a current value of ' + str(sim_counter))
         print("Sim Counter is: "+str(sim_counter))
         rp_y = 0 # resets y for each sim so offsets incs correctly
         offset = offset_values[sim_counter]
-        new_rp_y = rp_y - offset # made new var to avoid pot issues
+        new_rp_y = rp_y + offset # made new var to avoid pot issues
         new_road_pos = [0, new_rp_y, 0] # we need to put new y values back into vec
         
         road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
@@ -79,7 +75,6 @@ for sim_counter in range(0,10): # replaced while with for loop
         
         print('printed to the txt file') # keeps rewriting over previous values, this is a later fix
         
-        
         simsteps = 0
         #create a 'local' sim time variable that keeps track of THIS simulation's time only.
         current_simtime = 0
@@ -91,9 +86,11 @@ for sim_counter in range(0,10): # replaced while with for loop
             #at beginning of simulation, give bike proper initial x velocity
             if(simsteps<20):
                  mc_node.setVelocity([10,0,0,0,0,0])
+                 road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
             
             #increment how many simulation steps we've done.
             simsteps+=1
+             
             # robot.step(TIME_STEP) # increments time appropriately 
             #print('time check while loop in progress')
             #print(mc_node.getTime())
@@ -102,9 +99,9 @@ for sim_counter in range(0,10): # replaced while with for loop
         print('Exit while loop')
       
         # initial 000 vector to set road_pos back to 
-        init_road_pos = [0, 0, 0]
-        road_pos_field.setSFVec3f(init_road_pos) # ressets road position vec (might not need)
-        print(road_pos_field.setSFVec3f(init_road_pos)) 
+        # init_road_pos = [0, 0, 0]
+        # road_pos_field.setSFVec3f(init_road_pos) # ressets road position vec (might not need)
+        # print(road_pos_field.setSFVec3f(init_road_pos)) 
            
         # NTP: needs to reset before reloading
         robot.simulationReset() # ONLY resets siulation, not robot simulation time
@@ -130,12 +127,6 @@ for sim_counter in range(0,10): # replaced while with for loop
         print('i ends with a current value of ' +str(i))
         print(sim_counter)
         print('e')
-        
-        
-        
-        
-        
-        
         
                  #if (i <20 ):
                 #mc_node.setVelocity([10,0,0,0,0,0])
