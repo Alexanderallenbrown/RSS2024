@@ -1,1 +1,0 @@
-# time, goalRoll, Torque, speed, roll, rollrate, steer, steerrate, intE
