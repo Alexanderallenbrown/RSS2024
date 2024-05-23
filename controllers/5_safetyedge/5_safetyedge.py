@@ -194,7 +194,7 @@ while robot.step(timestep) != -1:
             T = -Tlim
 
         # print("speed = "+str(U)+", Tq: "+str(T)+", prev error: "+str(prev_y[0])+", yaw error: "+str(yawError)+", yaw: "+str(yaw)+", goalYaw: "+str(goalYaw) )
-        print("U: "+str(U)+", roll: "+str(roll)+", steer: "+str(steerangle)+", T="+str(T))
+        #print("U: "+str(U)+", roll: "+str(roll)+", steer: "+str(steerangle)+", T="+str(T))
         # print("Torque: "+str(T))
         steer.setControlPID(0.0001,0,0)
         steer.setPosition(float('inf'))
