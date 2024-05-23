@@ -48,6 +48,7 @@ RectangleArena {
   }
 }
 Road {
+  width 12
   lines [
     RoadLine {
       type "continuous"

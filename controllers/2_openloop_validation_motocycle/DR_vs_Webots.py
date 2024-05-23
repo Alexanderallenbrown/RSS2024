@@ -85,5 +85,5 @@ def makePlot():
     plot(tout,yout[:,1],'k',t,steer,'r')
     ylabel('Steer (rad)')
     xlabel('Time (s)')
-    plt.savefig("/Users/wenjia/Desktop/RSS2024/scripts/Figures/2_DR_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
+    plt.savefig("../../scripts/Figures/2_DR_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
     show()
