@@ -1,3 +1,4 @@
 *.wbproj
 *.DS_Store
 *.txt
+!scripts/casestudy_data/*.txt

@@ -26,7 +26,7 @@ yawCorr = Rollover()
 #what speed do we run at?
 driveVelocity = 10
 #what is the lane change step magnitude in meters?
-step_mag = 2
+step_mag = 4
 #at what time should we perform the step?
 step_time = 3
 #names of the parameters in the model, in the correct order.
@@ -43,7 +43,7 @@ if(showPlots):
 lastControlTime = 0
 dTcontrol = 0.005
 
-Rlqr = .01#.001
+Rlqr = .1#.001
 Qlqr = eye(6)#/10.0
 # Qlqr[5,5]=1.0
 
@@ -85,9 +85,17 @@ def setDriveMotorTorque(self,motor,command,omega):
 
 
 if recordData:
+    offsetfile = open('../../scripts/casestudy_data/road_position_index.txt','r')
+    slantfile = open('../../scripts/casestudy_data/edge_slant.txt','r')
+    road_pos_index = int(offsetfile.readline().strip())
+    slant_angle = int(slantfile.readline().strip())
+    print("PTW Controller reads road pos index number "+str(road_pos_index))
+    print("PTW Controller reads slant angle of "+str(slant_angle))
+    datafilename = '../../scripts/casestudy_data/safetyedge_data_offset_'+str(road_pos_index)+'_slant_'+str(slant_angle)+'.txt'
+    print("PTW controller saving data to: "+datafilename)
     # start a file we can use to collect data
-    f = open('./webots_data.txt','w')
-    f.write("# time, goalRoll, Torque, speed, roll, rollrate, steer, steerrate, intE\r\n")
+    f = open(datafilename,'w')
+    f.write("# time, goalRoll, Torque, speed, roll, rollrate, steer, steerrate, intE,goalLane,yaw,y\r\n")
 
 # get the time step of the current world.
 timestep = int(robot.getBasicTimeStep())
@@ -202,4 +210,4 @@ while robot.step(timestep) != -1:
         steer.setTorque(T)
         lastControlTime = simtime
     if(recordData):
-        f.write(str(simtime)+","+str(T)+","+str(U)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+","+str(rollInt)+"\r\n")
+        f.write(str(simtime)+","+str(T)+","+str(U)+","+str(roll)+","+str(steerangle)+","+str(rollRate)+","+str(steerRate)+","+str(rollInt)+","+str(stepVal)+","+str(yaw)+","+str(latPos)+"\r\n")
