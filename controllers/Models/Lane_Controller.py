@@ -100,7 +100,7 @@ def getModelSSy(v,params):
 def getLQRy(v,Q,R,params):
     sys = getModelSSy(v,params)
     K,S,E = control.lqr(sys,Q,R)
-    syscl = control.StateSpace(sys.A-dot(sys.B,K),vstack([0,0,0,0,0,1]),eye(6),0)
+    syscl = control.StateSpace(sys.A-dot(sys.B,K),dot(sys.B,K),eye(6),0)
     return K,syscl
 
 ######### OPEN LOOP EIGENVALUE STUDY

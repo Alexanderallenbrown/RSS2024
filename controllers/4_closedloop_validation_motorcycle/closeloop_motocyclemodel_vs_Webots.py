@@ -75,23 +75,24 @@ def makePlot():
     #get open loop system for use in Euler simulation
     sys_ol = getModelSSy(driveVelocity,params=MC_params)
     #perform an lsim using mlaneposition and initial condition values
-    # yout,tout,xout = cnt.lsim(sys_cl,laneposition,t,X0)
+    Usim = vstack((zeros((5,len(t))),laneposition))
+    yout,tout,xout = cnt.lsim(sys_cl,Usim.T,t,X0)
 
-    # #simulate closed loop lane change using Euler
-    yout = zeros((len(t),6)) #array to hold states for all times
-    yout[0,:] = X0 #set initial condition
-    tout = t
-    #perform Euler loop. xdot = (A-B*K)*x + Bcl*y_desired
-    for k in range(1,len(t)):
-        #change states into error
-        e = vstack(array([0,0,0,0,0,laneposition[k-1]]))-vstack(yout[k-1,:])
-        #use error to compute torque via the LQR
-        Tq = dot(KLQR.ravel(),e)
-        #compute xdot by feeding this torque into the open loop system
-        xdot = dot(sys_ol.A,vstack(yout[k-1,:]))+sys_ol.B*Tq
-        #use Euler to numerically integrate
-        yout [k,:] = ((t[k]-t[k-1])*xdot +vstack(yout[k-1,:])).ravel()
-
+    # # #simulate closed loop lane change using Euler
+    # yout = zeros((len(t),6)) #array to hold states for all times
+    # yout[0,:] = X0 #set initial condition
+    # tout = t
+    # #perform Euler loop. xdot = (A-B*K)*x + Bcl*y_desired
+    # for k in range(1,len(t)):
+    #     #change states into error
+    #     e = vstack(array([0,0,0,0,0,laneposition[k-1]]))-vstack(yout[k-1,:])
+    #     #use error to compute torque via the LQR
+    #     Tq = dot(KLQR.ravel(),e)
+    #     #compute xdot by feeding this torque into the open loop system
+    #     xdot = dot(sys_ol.A,vstack(yout[k-1,:]))+sys_ol.B*Tq
+    #     #use Euler to numerically integrate
+    #     yout [k,:] = ((t[k]-t[k-1])*xdot +vstack(yout[k-1,:])).ravel()
+    #
 
 
 
