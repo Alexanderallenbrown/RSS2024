@@ -8,7 +8,7 @@ import sys
 #include the Models directory, where the whipple_model.py (and other common modules) live.
 sys.path.insert(0, '../Models')
 import matplotlib.pyplot as plt
-from Lane_Controller import getLQRy
+from Lane_Controller import getLQRy,getModelSSy
 
 #construct close-loop model of the bike.
 param_names = ['a ','b ','c','hrf','mrf','xff','zff','mff','Rfw','mfw','Rrw','mrw','Jyyf','Jyyr','lam']
@@ -70,9 +70,29 @@ def makePlot():
     driveVelocity = 10
     Rlqr = .1#.001
     Qlqr = eye(6)#/10.0
-    KLQR,sys = getLQRy(driveVelocity,Q=Qlqr,R=Rlqr,params=MC_params)
+    #get LQR gain and closed loop system (which isn't that helpful!)
+    KLQR,sys_cl = getLQRy(driveVelocity,Q=Qlqr,R=Rlqr,params=MC_params)
+    #get open loop system for use in Euler simulation
+    sys_ol = getModelSSy(driveVelocity,params=MC_params)
     #perform an lsim using mlaneposition and initial condition values
-    yout,tout,xout = cnt.lsim(sys,y,t,X0)
+    # yout,tout,xout = cnt.lsim(sys_cl,laneposition,t,X0)
+
+    # #simulate closed loop lane change using Euler
+    yout = zeros((len(t),6)) #array to hold states for all times
+    yout[0,:] = X0 #set initial condition
+    tout = t
+    #perform Euler loop. xdot = (A-B*K)*x + Bcl*y_desired
+    for k in range(1,len(t)):
+        #change states into error
+        e = vstack(array([0,0,0,0,0,laneposition[k-1]]))-vstack(yout[k-1,:])
+        #use error to compute torque via the LQR
+        Tq = dot(KLQR.ravel(),e)
+        #compute xdot by feeding this torque into the open loop system
+        xdot = dot(sys_ol.A,vstack(yout[k-1,:]))+sys_ol.B*Tq
+        #use Euler to numerically integrate
+        yout [k,:] = ((t[k]-t[k-1])*xdot +vstack(yout[k-1,:])).ravel()
+
+
 
 
     #now plot data vs. close_loop_model
@@ -83,19 +103,22 @@ def makePlot():
     legend(['model','Webots'],fontsize=15)
     title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad",fontsize=15)
     ylabel('Roll (rad)',fontsize=12)
-    plt.xticks(fontsize = 11) 
-    plt.yticks(fontsize = 11) 
+    plt.xticks(fontsize = 11)
+    plt.yticks(fontsize = 11)
     subplot(3,1,2)
     plot(tout,yout[:,1],'k',t,steer,'r')
     ylabel('Steer (rad)',fontsize=12)
     xlabel('Time (s)',fontsize=12)
-    plt.xticks(fontsize = 11) 
-    plt.yticks(fontsize = 11) 
+    plt.xticks(fontsize = 11)
+    plt.yticks(fontsize = 11)
     subplot(3,1,3)
-    plot(tout,yout[:,5],'k',t,y,'r')
+    plot(tout,yout[:,5],'k',t,y,'r',tout,laneposition,'b-.')
     ylabel('Laneposition(m)',fontsize=12)
     xlabel('TIme(s)',fontsize=12)
-    plt.xticks(fontsize = 11) 
-    plt.yticks(fontsize = 11) 
+    plt.xticks(fontsize = 11)
+    plt.yticks(fontsize = 11)
     plt.savefig("../../scripts/Figures/4_closeloop_motocycle_model_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
     show()
+
+if __name__=='__main__':
+    makePlot()
