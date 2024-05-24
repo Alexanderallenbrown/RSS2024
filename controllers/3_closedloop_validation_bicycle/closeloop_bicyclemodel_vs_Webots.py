@@ -99,8 +99,7 @@ def makePlot():
     figure()
     subplot(3,1,1)
     plot(tout,yout[:,0],'k',t,roll,'r')
-    legend(['closeloop_model','Webots'],fontsize="10",loc='upper right')
-    title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad",fontsize=15)
+    #title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad",fontsize=15)
     ylabel('Roll (rad)',fontsize=12)
     plt.xticks(fontsize = 11)
     plt.yticks(fontsize = 11)
@@ -118,6 +117,8 @@ def makePlot():
     xlabel('TIme(s)',fontsize=12)
     plt.xticks(fontsize = 11)
     plt.yticks(fontsize = 11)
+    legend(['linear model','Webots','desired lane position'],fontsize="10",loc='lower right')
+
     plt.savefig("../../scripts/Figures/3_closeloop_bicycle_model_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
 
     show()

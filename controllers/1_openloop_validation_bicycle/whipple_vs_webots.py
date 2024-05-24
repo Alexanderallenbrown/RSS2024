@@ -73,7 +73,7 @@ def makePlot():
     subplot(2,1,1)
     plot(tout,yout[:,0],'k',t,roll,'r')
     legend(['Whipple','Webots'])
-    title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad")
+    #title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad")
 
     ylabel('Roll (rad)')
     subplot(2,1,2)
