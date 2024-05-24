@@ -127,7 +127,6 @@ DEF SlantRoad Solid {
   rotation IS roadRotation
   translation IS roadPosition
     children [
-    
       DEF left_lane_road_shape Shape {
         appearance Appearance {
         } appearance PBRAppearance {
@@ -161,7 +160,7 @@ DEF SlantRoad Solid {
         ]
         }
       }
-      DEF rightt_lane_road_shape Shape {
+      DEF right_lane_road_shape Shape {
         appearance Appearance {
         } appearance PBRAppearance {
             roughness 0.3
@@ -189,6 +188,26 @@ DEF SlantRoad Solid {
             %<= myRoad.coordIndices[i+5][0] >% %<= myRoad.coordIndices[i+5][1] >% %<= myRoad.coordIndices[i+5][2] >% -1
             %<}>%
         ]
+        }
+      }
+      DEF road_shape Shape {
+        appearance Appearance {
+        } appearance PBRAppearance {
+            transparency 1
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %< for (let i = 0; i < myRoad.vertices.length; ++i) { >%
+              %<= myRoad.vertices[i][0] >% %<= myRoad.vertices[i][1] >% %<= myRoad.vertices[i][2] >%
+              %< } >%
+            ]
+          }
+          coordIndex [
+            %<for (let i = 0; i < myRoad.coordIndices.length; ++i) { >%
+            %<= myRoad.coordIndices[i][0] >% %<= myRoad.coordIndices[i][1] >% %<= myRoad.coordIndices[i][2] >% -1
+            %<}>%
+          ]
         }
       }
     ]
