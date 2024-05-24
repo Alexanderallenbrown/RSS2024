@@ -127,28 +127,68 @@ DEF SlantRoad Solid {
   rotation IS roadRotation
   translation IS roadPosition
     children [
-      DEF road_shape Shape {
+    
+      DEF left_lane_road_shape Shape {
         appearance Appearance {
         } appearance PBRAppearance {
             roughness 0.3
             metalness 0
-          // baseColorMap ImageTexture{
-             // url "resources\images\dirt texture.jpg"
-         //  }
+            textureTransform TextureTransform {
+            translation 0 20
+            rotation 1.5707963267948966192313216916398
+            scale 20 20
+            }
+            baseColorMap ImageTexture{
+            %< for (let i = 0; i < myRoad.coordIndices.length; i=i+6) { >%
+              url "../../../road texture.jpg"
+               %< } >%
+               filtering 5
+           }
         }
         geometry IndexedFaceSet {
-          coord Coordinate {
+        coord Coordinate {
             point [
-              %< for (let i = 0; i < myRoad.vertices.length; ++i) { >%
-              %<= myRoad.vertices[i][0] >% %<= myRoad.vertices[i][1] >% %<= myRoad.vertices[i][2] >%
-              %< } >%
+                %< for (let i = 0; i < myRoad.vertices.length; ++i) { >%
+                %<= myRoad.vertices[i][0] >% %<= myRoad.vertices[i][1] >% %<= myRoad.vertices[i][2] >%
+                %< } >%
             ]
-          }
-          coordIndex [
-            %<for (let i = 0; i < myRoad.coordIndices.length; ++i) { >%
+        }
+        coordIndex [
+            %<for (let i = 0; i < myRoad.coordIndices.length; i=i+6) { >%
             %<= myRoad.coordIndices[i][0] >% %<= myRoad.coordIndices[i][1] >% %<= myRoad.coordIndices[i][2] >% -1
+            %<= myRoad.coordIndices[i+1][0] >% %<= myRoad.coordIndices[i+1][1] >% %<= myRoad.coordIndices[i+1][2] >% -1
             %<}>%
-          ]
+        ]
+        }
+      }
+      DEF rightt_lane_road_shape Shape {
+        appearance Appearance {
+        } appearance PBRAppearance {
+            roughness 0.3
+            metalness 0
+            textureTransform TextureTransform {
+            scale 100 100
+            }
+            baseColorMap ImageTexture{
+              url "../../../dirt texture.jpg"
+           }
+        }
+        geometry IndexedFaceSet {
+        coord Coordinate {
+            point [
+                %< for (let i = 0; i < myRoad.vertices.length; ++i) { >%
+                %<= myRoad.vertices[i][0] >% %<= myRoad.vertices[i][1] >% %<= myRoad.vertices[i][2] >%
+                %< } >%
+            ]
+        }
+        coordIndex [
+            %<for (let i = 0; i < myRoad.coordIndices.length; i=i+6) { >%
+            %<= myRoad.coordIndices[i+2][0] >% %<= myRoad.coordIndices[i+2][1] >% %<= myRoad.coordIndices[i+2][2] >% -1
+            %<= myRoad.coordIndices[i+3][0] >% %<= myRoad.coordIndices[i+3][1] >% %<= myRoad.coordIndices[i+3][2] >% -1
+            %<= myRoad.coordIndices[i+4][0] >% %<= myRoad.coordIndices[i+4][1] >% %<= myRoad.coordIndices[i+4][2] >% -1
+            %<= myRoad.coordIndices[i+5][0] >% %<= myRoad.coordIndices[i+5][1] >% %<= myRoad.coordIndices[i+5][2] >% -1
+            %<}>%
+        ]
         }
       }
     ]
