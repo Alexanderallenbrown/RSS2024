@@ -8,7 +8,7 @@ from Rollover import Rollover
 from whipple_vs_webots import makePlot
 #from realtime_plotter import RealTimePlot
 
-driveVelocity= 4.5#3.95#28.95
+driveVelocity= 4.35#3.95#28.95
 
 stepTime = 0 #seconds, time of step response
 stepTorque = 0 #Nm, amount of torque to apply to handlebars
@@ -70,7 +70,7 @@ firstLoop = True
 
 #set the simulation forward speed and calculate rear wheel omega
 
-Rrw = 0.33
+Rrw = 0.3
 driveOmega = driveVelocity/Rrw
 
 
