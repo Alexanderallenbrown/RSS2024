@@ -25,7 +25,7 @@ yawCorr = Rollover()
 
 # SIMULATION SETUP
 #what speed do we run at?
-driveVelocity = 10
+driveVelocity = 15.6
 #what is the lane change step magnitude in meters?
 step_mag = 4
 #at what time should we perform the step?

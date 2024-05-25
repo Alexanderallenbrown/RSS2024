@@ -67,7 +67,7 @@ def makePlot():
     print("Testing at velocity "+str(U)+" and step torque "+str(T))
 
     #get state space model of bike based on close_loop_model
-    driveVelocity = 10
+    driveVelocity = 15.6
     Rlqr = .1#.001
     Qlqr = eye(6)#/10.0
     #get LQR gain and closed loop system (which isn't that helpful!)

@@ -5,5 +5,5 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fc01000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 2 "controllers/4_closedloop_validation_motorcycle/4_closedloop_validation_motorcycle.py" "controllers/4_closedloop_validation_motorcycle_supervisor/4_closedloop_validation_motorcycle_supervisor.py" "controllers/4_closedloop_validation_motorcycle/closeloop_motocyclemodel_vs_Webots.py"
+textFiles: 0 "controllers/4_closedloop_validation_motorcycle/4_closedloop_validation_motorcycle.py" "controllers/4_closedloop_validation_motorcycle_supervisor/4_closedloop_validation_motorcycle_supervisor.py"
 consoles: Console:All:All
