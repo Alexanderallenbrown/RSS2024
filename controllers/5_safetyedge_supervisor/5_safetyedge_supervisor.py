@@ -106,7 +106,7 @@ for slant_counter in range(0,len(slant_values)):
                 #print(current_simtime)
                 #at beginning of simulation, give bike proper initial x velocity
                 if(simsteps<20):
-                     mc_node.setVelocity([10,0,0,0,0,0])
+                     mc_node.setVelocity([15.6,0,0,0,0,0])
                      road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
     
                 #increment how many simulation steps we've done.
