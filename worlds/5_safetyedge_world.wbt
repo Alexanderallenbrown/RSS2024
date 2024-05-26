@@ -10,17 +10,11 @@ WorldInfo {
   lineScale 1
   contactProperties [
     ContactProperties {
-      coulombFriction [
-        0.6
-      ]
       bounce 0
       softCFM 0.0003
     }
     ContactProperties {
       material1 "motorcycle_wheel"
-      coulombFriction [
-        0.6
-      ]
       bounce 0
       bounceVelocity 0
       softCFM 0.01
@@ -28,10 +22,11 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.16511313754179552 0.13529817676056496 0.9769503852173717 0.48846711672664483
-  position -14.101430262545556 -13.287471079902005 6.241838498417577
+  orientation -0.2307853516766927 0.38915726232687875 0.8917929953917076 0.39425777340787777
+  position -3.4058020891671363 -1.2416667497410803 1.2769173515118932
   near 1
   follow "Bicycle"
+  followType "Mounted Shot"
 }
 TexturedBackground {
 }
@@ -69,5 +64,6 @@ DEF SlantRoad SafetyEdge {
   roadRotation 0 0 1 0
   roadPosition -1 0 -0.093
   rLen 200
-  edgePosition 0.1
+  height 2
+  edgePosition 0.3
 }

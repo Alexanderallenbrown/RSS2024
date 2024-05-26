@@ -37,7 +37,7 @@ sim_counter = 0 # counts number of sims occured
 sim_time = 0 # updates to match time step
 sim_time_max = 10 # max time we want simulation to update
 offset_values = arange(0,4,.25)#[0.50, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
-slant_values = [90, 60]
+slant_values = [30,90]
 
 
 i = 0 # index for offset_values array
