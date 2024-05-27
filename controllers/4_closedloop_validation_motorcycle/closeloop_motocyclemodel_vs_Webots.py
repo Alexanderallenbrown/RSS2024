@@ -98,30 +98,37 @@ def makePlot():
 
     #now plot data vs. close_loop_model
     figure()
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True)
+
     subplot(3,1,1)
     #plt.tight_layout()
-    plot(tout,yout[:,0],'k',t,roll,'r')
-    
-
+    ax1.plot(tout,yout[:,0],'k',t,roll,'r')
+    title('D',fontsize=15)
     #title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad",fontsize=15)
-    ylabel('Roll (rad)',fontsize=12)
-    plt.xticks(fontsize = 11)
-    plt.yticks(fontsize = 11)
+    ylabel('Roll (rad)',fontsize=14)
+
+    plt.yticks(fontsize = 15)
+    #plt.xticks([])
     subplot(3,1,2)
-    plot(tout,yout[:,1],'k',t,steer,'r')
-    ylabel('Steer (rad)',fontsize=12)
-    xlabel('Time (s)',fontsize=12)
-    plt.xticks(fontsize = 11)
-    plt.yticks(fontsize = 11)
+    ax2.plot(tout,yout[:,1],'k',t,steer,'r')
+    ylabel('Steer (rad)',fontsize=14)
+    plt.yticks(fontsize = 15)
+    #plt.xticks([])
+
     subplot(3,1,3)
-    plot(tout,yout[:,5],'k',t,y,'r',tout,laneposition,'b-.')
-    ylabel('Laneposition(m)',fontsize=12)
-    xlabel('TIme(s)',fontsize=12)
-    plt.xticks(fontsize = 11)
-    plt.yticks(fontsize = 11)
-    legend(['linear model','Webots','desired lane position'],fontsize="10",loc='lower right')
+    ax3.plot(tout,yout[:,5],'k',t,y,'r',tout,laneposition,'b-.')
+    ylabel('Laneposition(m)',fontsize=14)
+    plt.xticks(fontsize = 15)
+
+    xlabel('TIme(s)',fontsize=15)
+    plt.yticks(fontsize = 15)
+    legend(['linear model','Webots','desired lane position'],fontsize="12",loc='lower right')
+
+    fig.align_ylabels()
+    plt.tight_layout()
     plt.savefig("../../scripts/Figures/4_closeloop_motocycle_model_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
     show()
+
 
 if __name__=='__main__':
     makePlot()
