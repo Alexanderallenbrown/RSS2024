@@ -121,7 +121,7 @@ def makePlot():
     xlabel('TIme(s)',fontsize=14)
     plt.xticks(fontsize = 15)
     plt.yticks(fontsize = 15)
-    legend(['linear model','Webots','desired lane position'],fontsize="12",loc='lower right')
+    legend(['linear model','Webots','desired lane position'],fontsize="9",loc='lower right')
 
     fig.align_ylabels()
     plt.tight_layout()
