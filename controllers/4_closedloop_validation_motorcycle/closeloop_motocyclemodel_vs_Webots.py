@@ -122,11 +122,11 @@ def makePlot():
 
     xlabel('TIme(s)',fontsize=15)
     plt.yticks(fontsize = 15)
-    legend(['linear model','Webots','desired lane position'],fontsize="9",loc='lower right')
+    #legend(['linear model','Webots','desired lane position'],fontsize="9",loc='lower right')
 
     fig.align_ylabels()
     plt.tight_layout()
-    plt.savefig("../../scripts/Figures/4_closeloop_motocycle_model_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
+    plt.savefig("../../scripts/Figures/4_closeloop_motocycle_model_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png",dpi=1000)
     show()
 
 

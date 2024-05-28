@@ -109,6 +109,6 @@ grid('on')
 title('d',fontsize=14)
 
 fig1.tight_layout()
-savefig("Figures/5_casestudy_panel1.png")
+savefig("Figures/5_casestudy_panel1.png",dpi=1000)
 
 show()

@@ -79,7 +79,7 @@ def makePlot():
 
     subplot(2,1,1)
     ax1.plot(tout,yout[:,0],'k',t,roll,'r')
-    legend(['DR_model','Webots'],fontsize=13)
+    #legend(['DR_model','Webots'],fontsize=13)
     #title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rad")
     title('B',fontsize=15)
     ylabel('Roll (rad)',fontsize=14)
@@ -94,5 +94,5 @@ def makePlot():
     fig.align_ylabels()
 
     plt.tight_layout()
-    plt.savefig("../../scripts/Figures/2_DR_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
+    plt.savefig("../../scripts/Figures/2_DR_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png",dpi=1000)
     show()

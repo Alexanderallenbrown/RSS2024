@@ -88,5 +88,5 @@ def makePlot():
     plt.xticks(fontsize = 15)
     fig.align_ylabels()
     plt.tight_layout()
-    plt.savefig("../../scripts/Figures/1_whipple_vs_Webots_phi0_"+str(round(roll[0],2))+" rad.png")
+    plt.savefig("../../scripts/Figures/1_whipple_vs_Webots_phi0_"+str(round(roll[0],2))+" rad.png",dpi=10000)
     show()

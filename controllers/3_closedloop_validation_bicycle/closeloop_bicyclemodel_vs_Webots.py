@@ -125,7 +125,7 @@ def makePlot():
 
     fig.align_ylabels()
     plt.tight_layout()
-    plt.savefig("../../scripts/Figures/3_closeloop_bicycle_model_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png")
+    plt.savefig("../../scripts/Figures/3_closeloop_bicycle_model_vs_Webots_phi_0=$"+str(round(roll[0],2))+" rad.png",dpi=1000)
 
     show()
 
