@@ -139,7 +139,7 @@ DEF SlantRoad Solid {
             }
             baseColorMap ImageTexture{
             %< for (let i = 0; i < myRoad.coordIndices.length; i=i+6) { >%
-              url "../road texture.jpg"
+              url "../textures/road texture.jpg"
                %< } >%
                filtering 5
            }
@@ -169,7 +169,7 @@ DEF SlantRoad Solid {
             scale 100 100
             }
             baseColorMap ImageTexture{
-              url "../dirt texture.jpg"
+              url "../textures/road_texture_2.jpg"
            }
         }
         geometry IndexedFaceSet {

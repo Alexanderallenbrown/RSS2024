@@ -1,6 +1,6 @@
 from controller import Supervisor
 from controller import Node
-from numpy import arange
+from numpy import arange,savetxt
 # 0, 1, 2, 3, 4, check where code is stopping and not runnig
 # get access to nodes through Supervisor
 
@@ -8,7 +8,7 @@ TIME_STEP = 1
 robot = Supervisor()
 
 # mc_node = robot.getFromDef('PTW')
-
+recordData = True
 # get our safety edge node
 safedge_node = robot.getFromDef('SlantRoad')
 road_pos_field = safedge_node.getField('roadPosition')
@@ -57,19 +57,20 @@ print(road_pos) # this is being printed
 sim_counter = 0
 slant_counter = 0
 #open a file that will record the simulation index.
-#this file gets read by the PTW controller to organize how it saves data.
-y = open('../../scripts/casestudy_data/road_position_index.txt', 'w') # opens txt for file
-y.write(str(sim_counter)) # writes the initial y position to file
-y.close() # closes file...
-print('initial printed to text file')
 
-#now write a file that records the offset values
-offset_vals_file = open('../../scripts/casestudy_data/road_positions.txt','w')
-offset_vals_file.write(str(offset_values))
-#now write the current slant angle to a file.
-slant_file = open('../../scripts/casestudy_data/edge_slant.txt','w')
-slant_file.write(str(int(slant_values[slant_counter])))
-slant_file.close()
+#this file gets read by the PTW controller to organize how it saves data.
+if(recordData):
+    y = open('../../scripts/casestudy_data/road_position_index.txt', 'w') # opens txt for file
+    y.write(str(sim_counter)) # writes the initial y position to file
+    y.close() # closes file...
+    print('initial printed to text file')
+
+    #now write a file that records the offset values
+    savetxt('../../scripts/casestudy_data/road_positions.txt',offset_values)
+    #now write the current slant angle to a file.
+    slant_file = open('../../scripts/casestudy_data/edge_slant.txt','w')
+    slant_file.write(str(int(slant_values[slant_counter])))
+    slant_file.close()
 
 for slant_counter in range(0,len(slant_values)):
     for sim_counter in range(0,len(offset_values)): # replaced while with for loop
@@ -79,23 +80,23 @@ for slant_counter in range(0,len(slant_values)):
             offset = offset_values[sim_counter]
             new_rp_y = rp_y + offset # made new var to avoid pot issues
             new_road_pos = [0, new_rp_y, 0] # we need to put new y values back into vec
-    
+
             road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
             road_pos = new_road_pos # testing if assignin vecs like this solves issue
-            
+
             slant_field.setSFFloat(slant_values[slant_counter])
             print(new_road_pos) # this is being printed
             print(road_pos) # this is being printed! theybboth match!
             #set road position
-    
-            y = open('../../scripts/casestudy_data/road_position_index.txt', 'w') # opens txt for file
-            y.write(str(sim_counter)) # writes new val to txt file, # str(val)
-            y.close()
-            slant_file = open('../../scripts/casestudy_data/edge_slant.txt','w')
-            slant_file.write(str(slant_values[slant_counter]))
-            slant_file.close()
-            print('printed to the txt files') # keeps rewriting over previous values, this is a later fix
-    
+            if(recordData):
+                y = open('../../scripts/casestudy_data/road_position_index.txt', 'w') # opens txt for file
+                y.write(str(sim_counter)) # writes new val to txt file, # str(val)
+                y.close()
+                slant_file = open('../../scripts/casestudy_data/edge_slant.txt','w')
+                slant_file.write(str(slant_values[slant_counter]))
+                slant_file.close()
+                print('printed to the txt files') # keeps rewriting over previous values, this is a later fix
+
             simsteps = 0
             #create a 'local' sim time variable that keeps track of THIS simulation's time only.
             current_simtime = 0
@@ -108,38 +109,38 @@ for slant_counter in range(0,len(slant_values)):
                 if(simsteps<20):
                      mc_node.setVelocity([15.6,0,0,0,0,0])
                      road_pos_field.setSFVec3f(new_road_pos) # sets original road_pos to new one
-    
+
                 #increment how many simulation steps we've done.
                 simsteps+=1
-    
+
                 # robot.step(TIME_STEP) # increments time appropriately
                 #print('time check while loop in progress')
                 #print(mc_node.getTime())
                 #print(robot.getTime())
-    
+
             print('Exit while loop')
-    
+
             # initial 000 vector to set road_pos back to
             # init_road_pos = [0, 0, 0]
             # road_pos_field.setSFVec3f(init_road_pos) # ressets road position vec (might not need)
             # print(road_pos_field.setSFVec3f(init_road_pos))
-    
+
             # NTP: needs to reset before reloading
             robot.simulationReset() # ONLY resets siulation, not robot simulation time
-    
+
              # restart the safety edge node controller
             # safe_edge_rob.restartController() # resets robot controller
-    
+
             # restart bike controller as well (might be impacting sim)
             mc_node.restartController()
-    
+
             # CODE BLOCK E
             #robot.worldReload()
             #print('Reset Sim')
-    
+
              # reset world,simulation, Supervisor controller, reset vector
             # robot.worldSave() # saves before annoying pop up
-    
+
              # CODE BLOCK S <-- needs to occur before while loop!!!
             i+=1 # updates index of offset values array
             #do not increment sim counter. for-loops do this automatically
@@ -148,10 +149,9 @@ for slant_counter in range(0,len(slant_values)):
             # print('i ends with a current value of ' +str(i))
             # print(sim_counter)
             # print('e')
-    
+
                      #if (i <20 ):
                     #mc_node.setVelocity([10,0,0,0,0,0])
                     #i += 1
-    
+
                     # code moves t
-    

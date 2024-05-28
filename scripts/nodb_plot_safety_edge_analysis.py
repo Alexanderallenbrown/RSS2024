@@ -1,11 +1,12 @@
 from numpy import *
 from matplotlib.pyplot import *
 import os, glob, re #for handling files
-
+import matplotlib.image as mpimg
 
 
 #load the offsets
 offsets = loadtxt('casestudy_data/road_positions.txt')
+offsets+=0.25#adjust for initial offset in world file
 print("offsets are:")
 print(offsets)
 
@@ -67,15 +68,21 @@ for filename in glob.glob('casestudy_data/safetyedge_data_offset_*.txt'):
 fig1 = figure(figsize=(16, 4), dpi=100)
 
 subplot(1,4,1)
-plot(offsets,success90,'k-o',offsets,success30,'r-x',markerfacecolor='none',mew=2,markersize=12)
-grid('on')
-xlabel('edge lateral offset (m)',fontsize=14)
-ylabel('Success (0=Failure)',fontsize=14)
-legend(['90 degree edge','30 degree edge'],loc='right')
+### FOR SUCCESS MATRIX USE BELOW
+# plot(offsets,success90,'k-o',offsets,success30,'r-x',markerfacecolor='none',mew=2,markersize=12)
+# grid('on')
+# xlabel('edge lateral offset (m)',fontsize=14)
+# ylabel('Success (0=Failure)',fontsize=14)
+# legend(['90 degree edge','30 degree edge'],loc='right')
+# title('a',fontsize=14)
+####FOR EXAMPLE IMAGE USE BELOW
+img=mpimg.imread('Figures/5_safetyedge_world_traversing.png')
+imshow(img)
+axis('off')
 title('a',fontsize=14)
 
-
 subplot(1,4,2)
+axis('on')
 plot(offsets,maxTq90,'ko',offsets,maxTq30,'rx',markerfacecolor='none',mew=2,markersize=12)
 grid('on')
 legend(['90 degree edge','30 degree edge'])
