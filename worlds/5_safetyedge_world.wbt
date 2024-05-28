@@ -64,5 +64,7 @@ DEF SlantRoad SafetyEdge {
   roadRotation 0 0 1 0
   roadPosition -1 0 -0.093
   rLen 200
+  angle 30
+  height 3
   edgePosition 0.3
 }
