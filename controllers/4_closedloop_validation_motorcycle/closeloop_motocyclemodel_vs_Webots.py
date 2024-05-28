@@ -117,7 +117,7 @@ def makePlot():
 
     subplot(3,1,3)
     ax3.plot(tout,yout[:,5],'k',t,y,'r',tout,laneposition,'b-.')
-    ylabel('Laneposition(m)',fontsize=14)
+    ylabel('Lane Pos(m)',fontsize=14)
     plt.xticks(fontsize = 15)
 
     xlabel('TIme(s)',fontsize=15)
