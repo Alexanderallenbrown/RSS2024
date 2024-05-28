@@ -62,26 +62,46 @@ for filename in glob.glob('casestudy_data/safetyedge_data_offset_*.txt'):
               maxTq30[offsetind] = NaN
               maxSteer30[offsetind] = NaN
               maxRoll30[offsetind] = NaN
+          success30[offsetind] = success
 
-figure(figsize=(16, 4), dpi=100)
-subplot(1,3,1)
-plot(offsets,maxTq90,'ko',offsets,maxTq30,'rx')
-xlabel('edge lateral offset (m)')
-ylabel('maximum steer torque (Nm)')
-# legend(['90 degree edge','30 degree edge'])
+fig1 = figure(figsize=(16, 4), dpi=100)
 
-# figure()
-subplot(1,3,2)
-plot(offsets,maxSteer90,'ko',offsets,maxSteer30,'rx')
-xlabel('edge lateral offset (m)')
-ylabel('maximum steer angle (rad)')
-# legend(['90 degree edge','30 degree edge'])
+subplot(1,4,1)
+plot(offsets,success90,'k-o',offsets,success30,'r-x',markerfacecolor='none',mew=2,markersize=12)
+grid('on')
+xlabel('edge lateral offset (m)',fontsize=14)
+ylabel('Success (0=Failure)',fontsize=14)
+legend(['90 degree edge','30 degree edge'],loc='right')
+title('a',fontsize=14)
 
-# figure()
-subplot(1,3,3)
-plot(offsets,maxRoll90,'ko',offsets,maxRoll30,'rx')
-xlabel('edge lateral offset (m)')
-ylabel('maximum Roll angle (rad)')
+
+subplot(1,4,2)
+plot(offsets,maxTq90,'ko',offsets,maxTq30,'rx',markerfacecolor='none',mew=2,markersize=12)
+grid('on')
 legend(['90 degree edge','30 degree edge'])
+xlabel('edge lateral offset (m)',fontsize=14)
+ylabel('maximum steer torque (Nm)',fontsize=14)
+title('b',fontsize=14)
+# legend(['90 degree edge','30 degree edge'])
+
+# figure()
+subplot(1,4,3)
+plot(offsets,maxSteer90*180/pi,'ko',offsets,maxSteer30*180/pi,'rx',markerfacecolor='none',mew=2,markersize=12)
+xlabel('edge lateral offset (m)',fontsize=14)
+ylabel('maximum steer angle (degrees)',fontsize=14)
+grid('on')
+title('c',fontsize=14)
+# legend(['90 degree edge','30 degree edge'])
+
+# figure()
+subplot(1,4,4)
+plot(offsets,maxRoll90*180/pi,'ko',offsets,maxRoll30*180/pi,'rx',markerfacecolor='none',mew=2,markersize=12)
+xlabel('edge lateral offset (m)',fontsize=14)
+ylabel('maximum Roll angle (degrees)',fontsize=14)
+grid('on')
+title('d',fontsize=14)
+
+fig1.tight_layout()
+savefig("Figures/5_casestudy_panel1.png")
 
 show()
