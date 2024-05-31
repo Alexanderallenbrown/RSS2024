@@ -73,7 +73,7 @@ def makePlot():
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
     subplot(2,1,1)
     ax1.plot(tout,yout[:,0],'k',t,roll,'r')
-    legend(['Whipple','Webots'],fontsize="13")
+    legend(['linear model','Webots'],fontsize="13")
     #title('$U=$ '+str(round(U,2))+"m/s; $T_\delta=$ "+str(round(T,2))+"Nm; $\phi_0=$"+str(round(roll[0],2))+" rasd")
     title('A',fontsize = 15)
 
@@ -88,5 +88,5 @@ def makePlot():
     plt.xticks(fontsize = 15)
     fig.align_ylabels()
     plt.tight_layout()
-    plt.savefig("../../scripts/Figures/1_whipple_vs_Webots_phi0_"+str(round(roll[0],2))+" rad.png",dpi=10000)
+    plt.savefig("../../scripts/Figures/1_whipple_vs_Webots_phi0_"+str(round(roll[0],2))+" rad.png",dpi=1000)
     show()
