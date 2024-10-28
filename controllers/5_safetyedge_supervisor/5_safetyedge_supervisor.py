@@ -56,6 +56,7 @@ print(road_pos) # this is being printed
 
 sim_counter = 0
 slant_counter = 0
+recordVideos = True
 #open a file that will record the simulation index.
 
 #this file gets read by the PTW controller to organize how it saves data.
@@ -74,6 +75,7 @@ if(recordData):
 
 for slant_counter in range(0,len(slant_values)):
     for sim_counter in range(0,len(offset_values)): # replaced while with for loop
+            
             print("Offset Counter is: "+str(sim_counter))
             print("Slant Counter is: "+str(slant_counter))
             rp_y = 0 # resets y for each sim so offsets incs correctly
@@ -96,7 +98,10 @@ for slant_counter in range(0,len(slant_values)):
                 slant_file.write(str(slant_values[slant_counter]))
                 slant_file.close()
                 print('printed to the txt files') # keeps rewriting over previous values, this is a later fix
-
+            if(recordVideos):
+                vidname = '../../videos/slant_'+str(slant_values[slant_counter])+'_offset_'+str(offset*100)+'.mp4'
+                cap = 'speed: 10 m/s, edge angle: '+str(slant_values[slant_counter])+', offset: '+str(offset)+'m'
+                robot.movieStartRecording(vidname,1280,720,0,100,1,False)
             simsteps = 0
             #create a 'local' sim time variable that keeps track of THIS simulation's time only.
             current_simtime = 0
@@ -127,7 +132,10 @@ for slant_counter in range(0,len(slant_values)):
 
             # NTP: needs to reset before reloading
             robot.simulationReset() # ONLY resets siulation, not robot simulation time
-
+            if(recordVideos):
+                robot.movieStopRecording()
+                while not robot.movieIsReady():
+                    pass
              # restart the safety edge node controller
             # safe_edge_rob.restartController() # resets robot controller
 

@@ -22,11 +22,11 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.2307853516766927 0.38915726232687875 0.8917929953917076 0.39425777340787777
-  position -3.4058020891671363 -1.2416667497410803 1.2769173515118932
+  orientation -0.06223467198229793 -0.032734712695107256 0.9975245782375614 3.193645082145242
+  position 60.00477624360113 1.9282441414184348 0.6085249084718872
   near 1
   follow "Bicycle"
-  followType "Mounted Shot"
+  followType "Pan and Tilt Shot"
 }
 TexturedBackground {
 }
@@ -64,7 +64,6 @@ DEF SlantRoad SafetyEdge {
   roadRotation 0 0 1 0
   roadPosition -1 0 -0.093
   rLen 200
-  angle 30
   height 3
   edgePosition 0.3
 }
